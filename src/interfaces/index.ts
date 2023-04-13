@@ -2,11 +2,12 @@ export interface iUser {
   id: string;
   name: string;
   email: string;
+
   profile_image: string | null;
-  password: string;
+  password: string | number;
   cpf: string;
   phone: string;
-  birthDate: Date;
+  birthDate: string;
   isSeller: boolean;
   description: string;
 }
