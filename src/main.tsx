@@ -8,6 +8,7 @@ import { StyledButton } from "./styles/button";
 import { StyledTextArea, StyledTextInput } from "./styles/input";
 import Input from "./components/input";
 import { StyledSelect } from "./styles/select";
+import Form from "./components/form";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -15,19 +16,28 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <GlobalStyles />
       <App />
       // --------MODELOS DE COMPONENTES BASE-----------
-      <Input register={() => {}} placeholder="Digite algo..." />
-      <br />
-      <Input register={() => {}} type="password" placeholder="Digite algo..." />
-      <br />
-      <Input register={() => {}} type="textarea" placeholder="Digite algo..." />
-      <br />
-      <StyledSelect name="select" id="1">
-        <option value="" selected>
-          Selecione um valor...
-        </option>
-        <option value="">2</option>
-      </StyledSelect>
-      <br />
+      <Form
+        onSubmit={() => {
+          return console.log("oi");
+        }}
+      >
+        <Input register={() => {}} placeholder="Digite algo..." />
+        <Input
+          register={() => {}}
+          type="password"
+          placeholder="Digite algo..."
+        />
+        <Input
+          register={() => {}}
+          type="textarea"
+          placeholder="Digite algo..."
+        />
+        <StyledSelect name="select">
+          <option value="">Selecione um valor...</option>
+          <option value="">2</option>
+        </StyledSelect>
+        <button type="submit">oioioi</button>
+      </Form>
       <StyledTitle tag="h1" color="--brand-1" fontWeight={700}>
         Texto h1
       </StyledTitle>

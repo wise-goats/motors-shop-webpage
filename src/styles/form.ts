@@ -11,6 +11,8 @@ export const StyledForm = styled.form`
   max-width: 90%;
   height: 542px;
 
+  background-color: var(--white-fixed);
+
   @media (min-width: 600px) {
     width: 412px;
     padding: 44px;
