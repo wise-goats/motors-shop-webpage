@@ -56,4 +56,15 @@ export const StyledText = styled(BaseTypography)`
   font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 400)};
   opacity: ${({ opacity }) => (opacity ? opacity / 100 : 1)};
   color: ${({ color }) => (color ? `var(${color})` : "var(--grey-0)")};
+
+  ${({ tag }) => {
+    if (tag == "label") {
+      return css`
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+      `;
+    }
+  }}
 `;

@@ -106,8 +106,6 @@ figure, figcaption, footer, header, menu, nav, section, audio, video, input, sel
     border: 0;
     padding: 0;
     font-size: 100%;
-    font-family: 'Nunito', sans-serif;
-    color: var(--grey-4);
 
     text-decoration: none;
     display: block;

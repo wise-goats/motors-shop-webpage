@@ -20,6 +20,19 @@ interface iBaseTypographyProps {
   opacity?: number;
   fontWeight?: 700 | 600 | 500 | 400;
   color?: string;
+  teste?:
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "h7"
+    | "p"
+    | "span"
+    | "small"
+    | "label"
+    | "caption";
 }
 
 const BaseTypography = ({ children, className, tag }: iBaseTypographyProps) => {
