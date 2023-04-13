@@ -21,7 +21,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           return console.log("oi");
         }}
       >
-        <Input register={() => {}} placeholder="Digite algo..." />
+        <StyledText tag="label">
+          Label
+          <Input register={() => {}} placeholder="Digite algo..." />
+        </StyledText>
         <Input
           register={() => {}}
           type="password"
