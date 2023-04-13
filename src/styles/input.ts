@@ -9,14 +9,14 @@ export const StyledTextInput = styled.input`
   border: 1.5px solid var(--grey-7);
   border-radius: 4px;
   padding: 24px 16px;
-  background-color: var(--grey-7);
+  /* background-color: var(--grey-7); */
   color: var(--grey-1);
   ::placeholder {
-    padding: 16px;
     color: var(--grey-3);
   }
   :focus {
     outline-color: var(--brand-1);
+    background-color: var(--grey-7);
   }
 `;
 
