@@ -1,3 +1,5 @@
+import { iUser, iAdvertisement } from "../interfaces";
+
 const lorem = `Lorem ipsum dolor sit amet, 
 consectetur adipiscing elit, sed do eiusmod 
 tempor incididunt ut labore et dolore magna 
@@ -11,12 +13,11 @@ a iaculis at. Sit amet cursus sit amet. At tellus
  Phasellus vestibulum lorem sed risus ultricies tristique nulla 
  aliquet enim.`;
 
-const userMock = {
-  id: "user-id-1",
+const userMock: iUser = {
+  id: "af285200-95c7-4ac7-8bc5-ea5b669f010b",
   name: "Test User",
   email: "testUser@mail.com",
-  image_url: "https://picsum.photos/400",
-
+  profile_image: "https://picsum.photos/400",
   password: 123456,
   cpf: "012.345.678-90",
   phone: "(99) 9 9999-9999",
@@ -25,11 +26,11 @@ const userMock = {
   description: lorem,
 };
 
-const advertiserMock = {
-  id: "advertiser-id-1",
+const advertiserMock: iUser = {
+  id: "104f2dfe-7644-4346-9e16-f48bbfedfef2",
   name: "Test Advertiser",
   email: "testAdvertiser@mail.com",
-  image_url: "https://picsum.photos/400",
+  profile_image: "https://picsum.photos/400",
   password: 123456,
   cpf: "987.654.321-09",
   phone: "(88) 8 8888-8888",
@@ -38,12 +39,12 @@ const advertiserMock = {
   description: lorem,
 };
 
-const advertisementsMock = [
+const advertisementsMock: iAdvertisement[] = [
   {
-    id: "car-1",
+    id: "196a59a6-5fc9-45db-841a-1d3db6b94f0c",
     brand: "Citroën",
     model: "C4 CACTUS Rip Curl 1.6 16V Flex Aut.",
-    year: "2022",
+    year: 2022,
     fuel: 1,
     mileage: 20000,
     color: "Black",
@@ -61,10 +62,10 @@ const advertisementsMock = [
     ],
   },
   {
-    id: "car-2",
+    id: "3d03b1bb-e918-4839-8a4a-ba24846fa588",
     brand: "Citroën",
     model: "AIRCROSS Live Bus. 1.6 Flex 5p Aut.",
-    year: "2020",
+    year: 2020,
     fuel: 1,
     mileage: 20000,
     color: "Red",
