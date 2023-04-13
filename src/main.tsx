@@ -9,6 +9,7 @@ import { StyledTextArea, StyledTextInput } from "./styles/input";
 import Input from "./components/input";
 import { StyledSelect } from "./styles/select";
 import Form from "./components/form";
+import FooterComponent from "./components/Footer/footer";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -104,6 +105,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <StyledButton buttonSize="small">Text</StyledButton>
       <br />
       <StyledButton buttonSize="default">Text</StyledButton>
+      <FooterComponent/>
     </BrowserRouter>
   </React.StrictMode>
 );
