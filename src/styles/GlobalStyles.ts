@@ -120,5 +120,7 @@ html,body{
 }
 
 
-
+.container{
+    max-width: 1600px;
+}
 `;
