@@ -3,7 +3,7 @@ export interface iUser {
   name: string;
   email: string;
 
-  profile_image: string | null;
+  profile_image: string | undefined;
   password: string | number;
   cpf: string;
   phone: string;
