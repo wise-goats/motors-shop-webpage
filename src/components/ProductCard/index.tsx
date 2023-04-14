@@ -1,30 +1,20 @@
 import React from "react";
 import StyledProductCard from "./style";
 import { StyledText, StyledTitle } from "../../styles/typography";
+import { iAdvertisement } from "../../interfaces";
 
-interface iProductCardProps {}
+interface iProductCardProps {
+  advertisement: iAdvertisement;
+}
 
-const lorem = `Lorem ipsum dolor sit amet, 
-consectetur adipiscing elit, sed do eiusmod 
-tempor incididunt ut labore et dolore magna 
-aliqua. In nibh mauris cursus mattis molestie 
-a iaculis at. Sit amet cursus sit amet. At tellus
- at urna condimentum. Sed vulputate mi sit amet mauris. 
- Consequat nisl vel pretium lectus quam id leo in. 
- Et ultrices neque ornare aenean euismod elementum nisi quis. 
- Sem nulla pharetra diam sit amet nisl suscipit adipiscing. 
- Nunc vel risus commodo viverra. Libero justo laoreet sit amet. 
- Phasellus vestibulum lorem sed risus ultricies tristique nulla 
- aliquet enim.`;
-
-const ProductCard = ({}: iProductCardProps) => {
+const ProductCard = ({ advertisement }: iProductCardProps) => {
   return (
     <StyledProductCard>
       <main className="productInfoMain">
         <img
-          src={"https://picsum.photos/400"}
-          alt={"Nome do Produto"}
-          title={"Nome do Produto"}
+          src={advertisement.images[0]}
+          alt={advertisement.model}
+          title={advertisement.model}
           className="productImage"
         />
 
@@ -34,37 +24,37 @@ const ProductCard = ({}: iProductCardProps) => {
           tag="h2"
           className="productTitle"
         >
-          {"Nome do Produto"}
+          {advertisement.model}
         </StyledTitle>
         <StyledText tag="p" className="productDescription">
-          {lorem}
+          {advertisement.descripition}
         </StyledText>
       </main>
 
       <section className="advertiserSection">
         <img
-          src={"https://picsum.photos/400"}
-          alt={"Nome do Anunciante"}
-          title={"Nome do Anunciante"}
+          src={advertisement.seller.profile_image}
+          alt={advertisement.seller.name}
+          title={advertisement.seller.name}
           className="advertiserImage"
         />
         <StyledTitle className="advertiserName" tag="h3">
-          {"Nome do Anunciante"}
+          {advertisement.seller.name}
         </StyledTitle>
       </section>
 
       <footer className="cardFooter">
         <div id="kmAndYearDiv">
           <StyledText className="specialText" tag="p">
-            0 KM
+            {advertisement.mileage + "KM"}
           </StyledText>
           <StyledText className="specialText" tag="p">
-            2019
+            {advertisement.year}
           </StyledText>
         </div>
 
         <StyledText fontWeight={600} tag="p">
-          R$ {"00.000,00"}
+          R$ {advertisement.price}
         </StyledText>
       </footer>
     </StyledProductCard>
