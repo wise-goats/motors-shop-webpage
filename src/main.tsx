@@ -9,6 +9,7 @@ import { StyledTextArea, StyledTextInput } from "./styles/input";
 import Input from "./components/input";
 import { StyledSelect } from "./styles/select";
 import Form from "./components/form";
+import Modal from "./components/Modal";
 import FooterComponent from "./components/Footer";
 import { ProductDescription } from "./pages/ProductDescription";
 

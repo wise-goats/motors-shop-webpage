@@ -2,6 +2,7 @@ import React from "react";
 
 interface iBaseButtonProps {
   className?: string;
+  onClick?: (event: any) => void;
   tag?: "button" | "span";
   children?: React.ReactNode;
   buttonSize?: "big" | "default" | "small";
@@ -21,12 +22,29 @@ interface iBaseButtonProps {
     | "brandDisabled";
 }
 
-const BaseButton = ({ children, className, tag }: iBaseButtonProps) => {
+const BaseButton = ({
+  children,
+  className,
+  tag,
+  onClick,
+}: iBaseButtonProps) => {
   return (
     <>
-      {!tag && <button className={className}>{children}</button>}
-      {tag === "button" && <button className={className}>{children}</button>}
-      {tag === "span" && <span className={className}>{children}</span>}
+      {!tag && (
+        <button className={className} onClick={onClick}>
+          {children}
+        </button>
+      )}
+      {tag === "button" && (
+        <button className={className} onClick={onClick}>
+          {children}
+        </button>
+      )}
+      {tag === "span" && (
+        <span className={className} onClick={onClick}>
+          {children}
+        </span>
+      )}
     </>
   );
 };
