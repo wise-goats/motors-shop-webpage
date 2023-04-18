@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { StyledHeader } from "./style";
 import logo from "../../assets/logo.svg";
 import React, { useState } from "react";
-import { StyledButton } from "../../styles/buttons";
+import { StyledButton } from "../../styles/button";
 import mokeProfile from "../../assets/mokedProfile.svg";
 import { StyledText, StyledTitle } from "../../styles/typography";
 
