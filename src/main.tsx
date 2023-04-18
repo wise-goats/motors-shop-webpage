@@ -10,12 +10,15 @@ import Input from "./components/input";
 import { StyledSelect } from "./styles/select";
 import Form from "./components/form";
 import Modal from "./components/Modal";
+import FooterComponent from "./components/Footer";
+import { ProductDescription } from "./pages/ProductDescription";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalStyles />
       <App />
+      {/* <ProductDescription/> */}
       // --------MODELOS DE COMPONENTES BASE-----------
       <Form
         onSubmit={() => {
@@ -105,6 +108,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <StyledButton buttonSize="small">Text</StyledButton>
       <br />
       <StyledButton buttonSize="default">Text</StyledButton>
+      <FooterComponent />
     </BrowserRouter>
   </React.StrictMode>
 );

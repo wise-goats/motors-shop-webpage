@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import HomePage from "../page/HomePage";
+import HomePage from "../pages/HomePage";
 
 export default () => (
   <Routes>
