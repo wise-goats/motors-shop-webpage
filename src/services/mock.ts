@@ -43,7 +43,7 @@ const advertisementsMock: iAdvertisement[] = [
   {
     id: "196a59a6-5fc9-45db-841a-1d3db6b94f0c",
     brand: "Citroën",
-    model: "C4 CACTUS Rip Curl 1.6 16V Flex Aut.",
+    model: "C4 CACTUS Rip Curl 1.6 16V Flex Aut.  1.6 16V Flex Aut. ",
     year: 2022,
     fuel: 1,
     mileage: 20000,
@@ -54,6 +54,7 @@ const advertisementsMock: iAdvertisement[] = [
     is_active: true,
     seller: advertiserMock,
     images: [
+      "https://picsum.photos/400",
       "https://picsum.photos/400",
       "https://picsum.photos/400",
       "https://picsum.photos/400",
