@@ -70,7 +70,6 @@ export const LoginPage = () => {
 
   return (
     <>
-      <Header />
       <StyledMain>
         <Form onSubmit={handleSubmit(login)}>
           <StyledTitle tag="h2" fontSize={24} fontWeight={600}>
@@ -111,7 +110,6 @@ export const LoginPage = () => {
           <Link to="/register">Cadastrar</Link>
         </Form>
       </StyledMain>
-      <FooterComponent />
     </>
   );
 };

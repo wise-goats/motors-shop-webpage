@@ -100,7 +100,6 @@ export const RegisterPage = () => {
   console.log(errors);
   return (
     <>
-      <Header />
       <StyledMain>
         <Form onSubmit={handleSubmit(registerUser)}>
           <StyledTitle tag="h1" fontSize={24} fontWeight={600}>
@@ -306,7 +305,6 @@ export const RegisterPage = () => {
           <StyledButton buttonStyle="brand1">Finalizar cadastro</StyledButton>
         </Form>
       </StyledMain>
-      <FooterComponent />
     </>
   );
 };
