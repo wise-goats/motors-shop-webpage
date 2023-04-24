@@ -1,4 +1,4 @@
-import { HeaderComponent } from "../../components/header";
+import { Header } from "../../components/Header";
 import { StyledButton } from "../../styles/button";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledMain } from "./styles";
@@ -100,7 +100,7 @@ export const RegisterPage = () => {
   console.log(errors);
   return (
     <>
-      <HeaderComponent />
+      <Header />
       <StyledMain>
         <Form onSubmit={handleSubmit(registerUser)}>
           <StyledTitle tag="h1" fontSize={24} fontWeight={600}>
