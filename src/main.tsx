@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <GlobalStyles />
       <App />
       {/* <ProductDescription/> */}
-      // --------MODELOS DE COMPONENTES BASE-----------
+      {/* // --------MODELOS DE COMPONENTES BASE-----------
       <Form
         onSubmit={() => {
           return console.log("oi");
@@ -108,7 +108,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <StyledButton buttonSize="small">Text</StyledButton>
       <br />
       <StyledButton buttonSize="default">Text</StyledButton>
-      <FooterComponent />
+      <FooterComponent /> */}
     </BrowserRouter>
   </React.StrictMode>
 );

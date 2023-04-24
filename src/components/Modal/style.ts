@@ -8,6 +8,7 @@ export const StyledModalContainer = styled.div`
 
   width: 100%;
   height: 100%;
+
   margin: 0 auto;
   position: absolute;
   top: 0;
@@ -15,6 +16,11 @@ export const StyledModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 
   z-index: 10;
+
+  .filters-modal {
+    position: fixed;
+    top: 70px;
+  }
 `;
 export const StyledModalBody = styled.div`
   display: flex;
@@ -23,9 +29,14 @@ export const StyledModalBody = styled.div`
 
   width: 90%;
   max-width: 520px;
+  max-height: 90%;
 
   background-color: var(--white-fixed);
   border-radius: 8px;
+
+  overflow-y: auto;
+
+  margin-bottom: 80px;
 `;
 
 export const SyledModalHeader = styled.header`

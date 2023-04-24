@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { StyledHeader } from "./style";
 import logo from "../../assets/logo.svg";
 import React, { useState } from "react";
-import { StyledButton } from "../../styles/buttons";
+import { StyledButton } from "../../styles/button";
 import mokeProfile from "../../assets/mokedProfile.svg";
 import { StyledText, StyledTitle } from "../../styles/typography";
 
@@ -10,7 +10,7 @@ interface IHeaderProps {
   children?: React.ReactNode;
 }
 
-export const HeaderComponent = ({ children }: IHeaderProps) => {
+export const Header = ({ children }: IHeaderProps) => {
   const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");
