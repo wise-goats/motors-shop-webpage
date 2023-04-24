@@ -6,8 +6,8 @@ import { RegisterPage } from "../pages/RegisterPage";
 export default () => (
   <Routes>
     <Route path="/" element={<HomePage />} />
-    <Route path="*" element={<Navigate to="/" />} />
     <Route path="/login" element={<LoginPage />} />
+    <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
   </Routes>
 );
