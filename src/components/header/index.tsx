@@ -10,7 +10,7 @@ interface IHeaderProps {
   children?: React.ReactNode;
 }
 
-export const HeaderComponent = ({ children }: IHeaderProps) => {
+export const Header = ({ children }: IHeaderProps) => {
   const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");

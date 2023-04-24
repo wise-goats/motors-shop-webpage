@@ -1,7 +1,7 @@
 import { StyledFooter } from "./style";
 import logo from "../../Assets/Logo.png";
 import { FaAngleUp } from "react-icons/fa";
-const FooterComponent = () => {
+const Footer = () => {
   return (
     <StyledFooter>
       <img src={logo} alt="" />
@@ -13,4 +13,4 @@ const FooterComponent = () => {
     </StyledFooter>
   );
 };
-export default FooterComponent;
+export default Footer;
