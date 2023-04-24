@@ -5,7 +5,6 @@ import { StyledMain } from "./styles";
 import { StyledTextInput } from "../../styles/input";
 import Form from "../../components/form";
 import FooterComponent from "../../components/Footer";
-import Input from "../../components/input";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Api } from "../../services/api";
+import { toast } from "react-toastify";
 
 interface ILogin {
   email: string;
@@ -27,10 +27,34 @@ export const LoginPage = () => {
     console.log(data);
     await Api.post("/login", data)
       .then((res) => {
+        toast("Bem vindo", {
+          type: "success",
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         localStorage.setItem("@MYTOKEN", res.data.token);
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast(`${err.message}`, {
+          type: "error",
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        console.log(err);
+      });
   };
 
   const schema = z.object({

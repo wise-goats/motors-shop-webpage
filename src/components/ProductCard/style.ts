@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-const StyledProductCard = styled.section`
+const StyledProductCard = styled.li`
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 10px;
 
   border-radius: 5px;
-  width: 300px;
-  height: 400px;
+  width: 312px;
+  max-width: 90%;
+  height: 356px;
 
   background-color: var(--grey-8);
 

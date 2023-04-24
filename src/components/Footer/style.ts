@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledFooter = styled.footer`
   width: 100vw;
-  height: 376px;
+  height: 310px;
   background-color: var(--grey-0);
   padding: 45px 59px;
   color: var(--white-fixed);
