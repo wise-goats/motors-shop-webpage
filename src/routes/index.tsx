@@ -2,6 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/loginPage";
 import { RegisterPage } from "../pages/RegisterPage";
+import ProfileAdminPage from "../pages/ProfileAdminPage";
 
 export default () => (
   <Routes>
@@ -9,5 +10,6 @@ export default () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
+    <Route path="/profile" element={<ProfileAdminPage />} />
   </Routes>
 );
