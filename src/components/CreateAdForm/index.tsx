@@ -45,6 +45,19 @@ const CreateAdForm = () => {
   const [showFipePrice, setShowFipePrice] = useState<string>();
   const [imgCount, setImgCount] = useState<number>(1);
 
+  const schema = z.object({
+    mileage: z.number(),
+    color: z.string(),
+    price: z.number(),
+    description: z.string(),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IAdForm>({ resolver: zodResolver(schema) });
+
   const addNewAdvertisement = async (formData: any) => {
     let fuleName = "Flex";
     if (fuel == 2) {
@@ -90,19 +103,6 @@ const CreateAdForm = () => {
         });
       });
   };
-
-  const schema = z.object({
-    mileage: z.number(),
-    color: z.string(),
-    price: z.number(),
-    description: z.string(),
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IAdForm>({ resolver: zodResolver(schema) });
 
   const getCars = async (brand: string) => {
     await FipeApi.get(`/?brand=${brand}`)
