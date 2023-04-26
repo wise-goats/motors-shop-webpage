@@ -53,7 +53,6 @@ export const LoginPage = () => {
           progress: undefined,
           theme: "light",
         });
-        console.log(err);
       });
   };
 
