@@ -16,7 +16,9 @@ interface ILogin {
 }
 
 export const LoginPage = () => {
+
   const { userLogin } = useAuthContext();
+
 
   const schema = z.object({
     email: z.string().email("Deve ser um email válido"),
