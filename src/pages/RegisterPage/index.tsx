@@ -1,66 +1,17 @@
-import { Header } from "../../components/Header";
 import { StyledButton } from "../../styles/button";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledMain } from "./styles";
 import { StyledTextInput } from "../../styles/input";
 import Form from "../../components/form";
-import FooterComponent from "../../components/Footer";
-import { toast } from "react-toastify";
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useNavigate } from "react-router-dom";
-
-import { Api } from "../../services/api";
-
-interface INewUserRequest {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  isAdm: boolean;
-  phone: string;
-  cpf: string;
-  birthDate: string;
-  isSeller: boolean;
-  description: string;
-  addresses: IAddress;
-}
-
-interface IAddress {
-  street: string;
-  number: string;
-  complement: string;
-  state: string;
-  city: string;
-  zipcode: string;
-}
+import { useAuthContext } from "../../contexts/AuthContext";
+import { iUserRegister } from "../../interfaces";
 
 export const RegisterPage = () => {
-  const navigate = useNavigate();
+  const { registerUser } = useAuthContext();
 
-  const registerUser = async (data: any) => {
-    data.addresses.number = parseInt(data.addresses.number);
-    data?.isSeller === "true"
-      ? (data.isSeller = true)
-      : (data.isSeller = false);
-    console.log(data);
-    console.log("oi");
-
-    await Api.post("users", data)
-      .then((res) => {
-        console.log(res);
-        res.data.name &&
-          toast.success("Registro realizado com sucesso!", {
-            position: "top-center",
-            autoClose: 2,
-          });
-        navigate("/login");
-      })
-      .catch((err) => console.log(err));
-  };
   const addressSchema = z.object({
     street: z.string(),
     number: z.string().regex(/^\d+$/),
@@ -95,13 +46,19 @@ export const RegisterPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<INewUserRequest>({ resolver: zodResolver(schema) });
+  } = useForm<iUserRegister>({ resolver: zodResolver(schema) });
   console.log(errors);
+
+  const newRegister = async (data: iUserRegister) => {
+    registerUser(data);
+    reset();
+  };
   return (
     <>
       <StyledMain>
-        <Form onSubmit={handleSubmit(registerUser)}>
+        <Form onSubmit={handleSubmit(newRegister)}>
           <StyledTitle tag="h1" fontSize={24} fontWeight={600}>
             Cadastro
           </StyledTitle>

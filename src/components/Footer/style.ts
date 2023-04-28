@@ -10,6 +10,8 @@ export const StyledFooter = styled.footer`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  bottom: 0;
 
   img {
     height: 26.336000442504883px;

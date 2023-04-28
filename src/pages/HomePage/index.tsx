@@ -14,6 +14,7 @@ import { StyledHomePage } from "./style";
 import { carros } from "../../database";
 import { iAdvertisement } from "../../interfaces";
 import FiltersComponent from "./FiltersComponent";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 export interface iFilter {
   brand: string[];
@@ -33,6 +34,8 @@ export interface iActiveFilter {
 }
 
 export default () => {
+  const { user } = useAuthContext();
+
   useEffect(() => {
     let filter: iFilter = {
       brand: [],

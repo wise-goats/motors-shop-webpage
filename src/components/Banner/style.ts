@@ -8,7 +8,6 @@ export const StyledBanner = styled.div`
   min-height: 350px;
   display: flex;
   flex-direction: column;
-  position: relative;
 
   align-items: center;
   justify-content: center;
