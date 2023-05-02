@@ -1,19 +1,14 @@
-import { HeaderComponent } from "../../components/header";
+import { Header } from "../../components/Header";
 import { StyledButton } from "../../styles/button";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledMain } from "./styles";
 import { StyledTextInput } from "../../styles/input";
 import Form from "../../components/form";
-import FooterComponent from "../../components/Footer";
-import Input from "../../components/input";
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Link, useNavigate } from "react-router-dom";
-
-import { Api } from "../../services/api";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 interface ILogin {
   email: string;
@@ -21,17 +16,9 @@ interface ILogin {
 }
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
 
-  const login = async (data: ILogin) => {
-    console.log(data);
-    await Api.post("/login", data)
-      .then((res) => {
-        localStorage.setItem("@MYTOKEN", res.data.token);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
-  };
+  const { userLogin } = useAuthContext();
+
 
   const schema = z.object({
     email: z.string().email("Deve ser um email válido"),
@@ -41,12 +28,17 @@ export const LoginPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ILogin>({ resolver: zodResolver(schema) });
 
+  const login = async (data: ILogin) => {
+    userLogin(data);
+    reset();
+  };
+
   return (
     <>
-      <HeaderComponent />
       <StyledMain>
         <Form onSubmit={handleSubmit(login)}>
           <StyledTitle tag="h2" fontSize={24} fontWeight={600}>
@@ -56,7 +48,6 @@ export const LoginPage = () => {
             Email
             <StyledTextInput
               type="email"
-              //register={() => {}}
               {...register("email")}
               placeholder="Digitar email"
             />
@@ -68,7 +59,6 @@ export const LoginPage = () => {
             Senha
             <StyledTextInput
               type="password"
-              //register={() => {}}
               {...register("password")}
               placeholder="Digitar senha"
             />
@@ -87,7 +77,6 @@ export const LoginPage = () => {
           <Link to="/register">Cadastrar</Link>
         </Form>
       </StyledMain>
-      <FooterComponent />
     </>
   );
 };

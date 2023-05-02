@@ -1,20 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StyledHeader } from "./style";
 import logo from "../../assets/logo.svg";
 import React, { useState } from "react";
 import { StyledButton } from "../../styles/button";
 import mokeProfile from "../../assets/mokedProfile.svg";
 import { StyledText, StyledTitle } from "../../styles/typography";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 interface IHeaderProps {
   children?: React.ReactNode;
 }
 
-export const HeaderComponent = ({ children }: IHeaderProps) => {
-  const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
+export const Header = ({ children }: IHeaderProps) => {
+  // const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
+  const { user } = useAuthContext();
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");
-
+  const navigate = useNavigate();
   return (
     <StyledHeader>
       <Link to={"/"}>
@@ -28,10 +30,22 @@ export const HeaderComponent = ({ children }: IHeaderProps) => {
       >
         {!user ? (
           <>
-            <StyledButton buttonStyle="light" buttonSize="default">
+            <StyledButton
+              buttonStyle="light"
+              buttonSize="default"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
               Fazer login
             </StyledButton>
-            <StyledButton buttonStyle="outline2" buttonSize="small">
+            <StyledButton
+              buttonStyle="outline2"
+              buttonSize="small"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
               Cadastrar
             </StyledButton>
           </>
@@ -42,7 +56,11 @@ export const HeaderComponent = ({ children }: IHeaderProps) => {
               {user.name}
             </StyledText>
             <nav className={`${!toast && "hide_toast"} profirl_options`}>
-              <StyledText tag="p" color="--grey-2">
+              <StyledText
+                tag="p"
+                color="--grey-2"
+                onClick={() => navigate("/profile")}
+              >
                 Editar Perfil
               </StyledText>
               <StyledText tag="p" color="--grey-2">

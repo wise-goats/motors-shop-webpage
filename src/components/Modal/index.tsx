@@ -11,13 +11,16 @@ interface iModalProps {
   children: React.ReactNode;
   handleModal: () => void;
   title: string;
+  className?: string;
 }
-const Modal = ({ children, handleModal, title }: iModalProps) => {
+const Modal = ({ children, handleModal, title, className }: iModalProps) => {
   return (
     <StyledModalContainer>
-      <StyledModalBody>
+      <StyledModalBody
+        className={className ? className + " modal-body" : "modal-body"}
+      >
         <SyledModalHeader>
-          <StyledTitle tag="h7" fontWeight={500}>
+          <StyledTitle tag="h4" fontWeight={500}>
             {title}
           </StyledTitle>
           <button className="close-modal" onClick={handleModal}>

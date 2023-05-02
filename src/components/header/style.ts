@@ -10,7 +10,6 @@ export const StyledHeader = styled.header`
     border-bottom: 2px solid var(--grey-6);
     height: 70px;
     width: 100%;
-    position: fixed;
 
     background-color: var(--grey-10);
   }
