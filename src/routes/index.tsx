@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/loginPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import ProfileAdminPage from "../pages/ProfileAdminPage";
+import CreateAdForm from "../components/CreateAdForm";
 
 export default () => (
   <Routes>
@@ -11,5 +12,6 @@ export default () => (
     <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/profile" element={<ProfileAdminPage />} />
+    <Route path="/teste" element={<CreateAdForm />} />
   </Routes>
 );

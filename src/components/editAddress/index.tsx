@@ -1,13 +1,13 @@
-import Form from "../../form";
-import { StyledText } from "../../../styles/typography";
-import { StyledTextInput } from "../../../styles/input";
-import { StyledButton } from "../../../styles/button";
+import Form from "../form";
+import { StyledText } from "../../styles/typography";
+import { StyledTextInput } from "../../styles/input";
+import { StyledButton } from "../../styles/button";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { Api } from "../../../services/api";
+import { Api } from "../../services/api";
 import { toast } from "react-toastify";
 import StyledForm from "./styles";
 
