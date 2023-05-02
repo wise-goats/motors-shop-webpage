@@ -12,7 +12,7 @@ export const MainContainer = styled.main`
     min-height: 60vh;
   }
   .bottomContainer {
-    background-color: var(--grey-7);
+    background-color: var(--grey-8);
     min-height: 1500px;
   }
 

@@ -50,10 +50,6 @@ export const StyledMain = styled.main`
       color: var(--white-fixed);
     }
   }
-  /* button {
-    width: 30px;
-    background-color: red;
-  } */
 
   input[type="radio"] {
     display: none;
