@@ -4,12 +4,10 @@ import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
-import { HeaderComponent } from "../header";
+
 const ProfilePageComponent = () => {
   return (
     <>
-      {/* <HeaderComponent /> */}
-
       <StyledProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
