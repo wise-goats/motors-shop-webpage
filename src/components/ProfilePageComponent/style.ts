@@ -132,12 +132,6 @@ export const StyledCommomProfilePage = styled.div`
     background-color: var(--grey-10);
     display: flex;
 
-    /* .containerSecundary {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 50px;
-    } */
     .containerSecundary {
       display: flex;
       flex-direction: column;

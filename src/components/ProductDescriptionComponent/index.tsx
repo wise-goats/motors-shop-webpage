@@ -7,11 +7,10 @@ import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
-import { HeaderComponent } from "../header";
+import { Header } from "../Header";
 const PageProductDescriptionComponent = () => {
   return (
     <>
-      <HeaderComponent />
       <StyledPageProductDescriptionMobile>
         <div className="containerMobileImage">
           <figure>

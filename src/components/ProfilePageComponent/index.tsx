@@ -4,14 +4,11 @@ import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
-import { HeaderComponent } from "../header";
 import { useState } from "react";
 const ProfilePageComponent = () => {
   const [isAdm, setIsAdm] = useState(true);
   return isAdm === false ? (
     <>
-      {/* <HeaderComponent /> */}
-
       <StyledProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
