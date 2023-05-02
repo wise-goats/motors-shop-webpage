@@ -6,9 +6,6 @@ const StyledForm = styled.div`
     justify-content: space-between;
     gap: 10px;
   }
-
-  button {
-  }
 `;
 
 export default StyledForm;
