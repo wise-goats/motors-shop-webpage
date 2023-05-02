@@ -4,7 +4,6 @@ import { LoginPage } from "../pages/loginPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import ProfileAdminPage from "../pages/ProfileAdminPage";
 
-
 export default () => (
   <Routes>
     <Route path="/" element={<HomePage />} />
