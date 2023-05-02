@@ -5,7 +5,6 @@ import { RegisterPage } from "../pages/RegisterPage";
 import { ProductDescription } from "../pages/ProductDescription";
 import { ProfilePage } from "../pages/ProfilePage";
 import ProfileAdminPage from "../pages/ProfileAdminPage";
-import CreateAdForm from "../components/CreateAdForm";
 
 export default () => (
   <Routes>
