@@ -17,6 +17,9 @@ export const Header = ({ children }: IHeaderProps) => {
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");
   const navigate = useNavigate();
+
+  const { exit } = useAuthContext();
+
   return (
     <StyledHeader>
       <Link to={"/"}>
@@ -71,7 +74,7 @@ export const Header = ({ children }: IHeaderProps) => {
                   Meus Anúcio
                 </StyledText>
               )}
-              <StyledText tag="p" color="--grey-2">
+              <StyledText onClick={() => exit()} tag="p" color="--grey-2">
                 Sair
               </StyledText>
             </nav>

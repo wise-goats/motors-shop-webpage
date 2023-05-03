@@ -18,6 +18,7 @@ export interface iAuthContext {
   user: iUserProfile | null;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
+  exit: () => void;
 }
 
 export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
@@ -87,8 +88,14 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
     }
   };
 
+  const exit = () => {
+    localStorage.removeItem("@MYTOKEN");
+    setUser(null);
+    navigate("/");
+  };
+
   return (
-    <AuthContext.Provider value={{ user, userLogin, registerUser }}>
+    <AuthContext.Provider value={{ user, userLogin, registerUser, exit }}>
       {children}
     </AuthContext.Provider>
   );
