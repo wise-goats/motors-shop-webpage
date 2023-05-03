@@ -29,6 +29,10 @@ interface IAdForm {
   description: string;
 }
 
+interface IImage {
+  image: string;
+}
+
 const CreateAdForm = () => {
   const [cars, setCars] = useState<ICar[]>([]);
   const [carsName, setCarsName] = useState<string[]>([]);
@@ -40,10 +44,24 @@ const CreateAdForm = () => {
   const [year, setYear] = useState<string>();
   const [fuel, setFuel] = useState<number>();
   const [fipePrice, setFipePrice] = useState<number>();
-  const [image, setImage] = useState<object[]>([]);
+  const [image, setImage] = useState<IImage[]>([]);
 
   const [showFipePrice, setShowFipePrice] = useState<string>();
   const [imgCount, setImgCount] = useState<number>(1);
+
+  const brands = [
+    "chevrolet",
+    "citroën",
+    "fiat",
+    "ford",
+    "honda",
+    "hyundai",
+    "nissan",
+    "peugeot",
+    "renault",
+    "toyota",
+    "volkswagen",
+  ];
 
   const schema = z.object({
     mileage: z.number(),
@@ -57,6 +75,19 @@ const CreateAdForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IAdForm>({ resolver: zodResolver(schema) });
+
+  const getImgUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    for (let i = 0; i < image.length; i++) {
+      if (
+        (image.length > 0 && e.target.value == image[i].image) ||
+        e.target.value == ""
+      ) {
+        return {};
+      }
+    }
+
+    setImage([...image, { image: e.target.value }]);
+  };
 
   const addNewAdvertisement = async (formData: any) => {
     let fuleName = "Flex";
@@ -126,28 +157,14 @@ const CreateAdForm = () => {
       .catch((err) => console.log(err));
   };
 
-  const getImgUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.split("/");
-    if (value[0] === "https:") {
-      setImage([...image, { image: e.target.value }]);
-    } else {
-      toast("O link não é uma url válida", {
-        type: "error",
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
-
   const addImputImage = () => {
     setImgCount(imgCount + 1);
   };
+
+  useEffect(() => {
+    getCars(brands[1]);
+    setBrand(brands[1]);
+  }, []);
 
   useEffect(() => {
     const getFipePrice = async () => {
@@ -217,13 +234,20 @@ const CreateAdForm = () => {
         <StyledText tag="p">Informações do veícolo</StyledText>
         <StyledText tag="label">
           Marca
-          <StyledTextInput
-            placeholder="Digitar marca"
+          <select
             onBlur={(e) => {
               getCars(e.target.value);
               setBrand(e.target.value);
             }}
-          />
+          >
+            {brands.map((elen) => {
+              return (
+                <option key={elen} value={elen}>
+                  {elen}
+                </option>
+              );
+            })}
+          </select>
         </StyledText>
         <StyledText tag="label">
           modelo
@@ -313,9 +337,6 @@ const CreateAdForm = () => {
               placeholder="R$ 00,00"
             />
           </StyledText>
-          <StyledText tag="span" fontSize={13} color="--alert-1">
-            {errors.price?.message}
-          </StyledText>
         </div>
         <StyledText tag="label">
           Descrição
@@ -323,9 +344,6 @@ const CreateAdForm = () => {
             {...register("description")}
             placeholder="Digitar descrição"
           />
-        </StyledText>
-        <StyledText tag="span" fontSize={13} color="--alert-1">
-          {errors.description?.message}
         </StyledText>
         <StyledText tag="label">
           Imagen da capa

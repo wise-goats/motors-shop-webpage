@@ -14,7 +14,7 @@ const StyledForm = styled.div`
   }
 
   div > label {
-    width: 48%;
+    width: 47%;
   }
 
   select {
@@ -24,7 +24,7 @@ const StyledForm = styled.div`
     border: 1.5px solid var(--grey-7);
     border-radius: 4px;
     padding: 0 16px;
-    color: var(--grey-3);
+    color: var(--grey-2);
     /* background-color: var(--grey-7); */
     ::placeholder {
       color: var(--grey-3);
@@ -61,7 +61,6 @@ const StyledForm = styled.div`
 
     width: 100%;
     min-width: 110px;
-    max-width: 315px;
     height: 48px;
     padding: 0 16px;
 
