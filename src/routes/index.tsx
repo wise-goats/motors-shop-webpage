@@ -12,8 +12,12 @@ export default () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
+<<<<<<< Updated upstream
     <Route path="/description" element={<ProductDescription />} />
     <Route path="/profile" element={<ProfilePage />} />
     <Route path="/profileadm" element={<ProfileAdminPage />} />
+=======
+    <Route path="/profile" element={<ProfileAdminPage />} />
+>>>>>>> Stashed changes
   </Routes>
 );
