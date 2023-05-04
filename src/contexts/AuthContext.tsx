@@ -18,11 +18,14 @@ export interface iAuthContext {
   user: iUserProfile | null;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
+  selectedCarId: string;
+  setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
 
 export const AuthProvider = ({ children }: iAuthProviderProps) => {
+  const [selectedCarId, setSelectedCarId] = useState("");
   const [user, setUser] = useState<iUserProfile | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         try {
           const res = await Api.get("/profile");
           setUser(res.data);
-          toast.success(`Bem vindo(a) ${res.data.name}`);
+          toast.success(`Bem vindo(a) ${res.data.name}`, { autoClose: 2 });
           navigate("/");
         } catch (error) {
           if (axios.isAxiosError(error)) {
@@ -54,12 +57,12 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
       Api.defaults.headers.authorization = `Bearer ${res.data.token}`;
       const profile = await Api.get("/profile");
       setUser(profile.data);
-      toast.success(`Bem vindo(a) ${profile.data.name}`);
+      toast.success(`Bem vindo(a) ${profile.data.name}`, { autoClose: 1 });
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message, { autoClose: 2 });
       }
     }
   };
@@ -82,13 +85,15 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message, { autoClose: 2 });
       }
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, userLogin, registerUser }}>
+    <AuthContext.Provider
+      value={{ user, userLogin, registerUser, selectedCarId, setSelectedCarId }}
+    >
       {children}
     </AuthContext.Provider>
   );

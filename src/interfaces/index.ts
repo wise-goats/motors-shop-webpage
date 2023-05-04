@@ -47,7 +47,7 @@ export interface iAdvertisement {
   price: number;
   descripition: string;
   is_active: boolean;
-  seller: iUser;
+  user: iUser;
   images: string[];
 }
 
