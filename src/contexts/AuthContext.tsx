@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
-import { iUser, iUserProfile, iUserRegister } from "../interfaces";
+import { iUser, iUserProfile, iUserRegister, iUserUpdate } from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -19,11 +19,15 @@ export interface iAuthContext {
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
   exit: () => void;
+  selectedCarId: string;
+  setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
+  updateUser: (data: iUserUpdate) => void;
 }
 
 export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
 
 export const AuthProvider = ({ children }: iAuthProviderProps) => {
+  const [selectedCarId, setSelectedCarId] = useState("");
   const [user, setUser] = useState<iUserProfile | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -34,8 +38,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         try {
           const res = await Api.get("/profile");
           setUser(res.data);
-          toast.success(`Bem vindo(a) ${res.data.name}`);
-          navigate("/");
+          toast.success(`Bem vindo(a) ${res.data.name}`, { autoClose: 2 });
+          // navigate("/");
         } catch (error) {
           if (axios.isAxiosError(error)) {
             console.log(error);
@@ -55,8 +59,21 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
       Api.defaults.headers.authorization = `Bearer ${res.data.token}`;
       const profile = await Api.get("/profile");
       setUser(profile.data);
-      toast.success(`Bem vindo(a) ${profile.data.name}`);
+      toast.success(`Bem vindo(a) ${profile.data.name}`, { autoClose: 1 });
       navigate("/");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.message, { autoClose: 2 });
+      }
+    }
+  };
+
+  const updateUser = async (data: iUserUpdate) => {
+    try {
+      const res = await Api.patch("/users", data);
+      const profile = await Api.get("/profile");
+      setUser(profile.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -83,7 +100,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message, { autoClose: 2 });
       }
     }
   };
@@ -95,7 +112,17 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, userLogin, registerUser, exit }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        userLogin,
+        registerUser,
+        selectedCarId,
+        setSelectedCarId,
+        exit,
+        updateUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

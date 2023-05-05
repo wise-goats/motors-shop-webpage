@@ -90,18 +90,18 @@ const CreateAdForm = () => {
   };
 
   const addNewAdvertisement = async (formData: any) => {
-    let fuleName = "Flex";
+    let fuelName = "Flex";
     if (fuel == 2) {
-      fuleName = "Híbrido";
+      fuelName = "Híbrido";
     } else if (fuel == 3) {
-      fuleName = "Elétrico";
+      fuelName = "Elétrico";
     }
     const data = {
       ...formData,
       brand: brand,
       model: name,
       year: Number(year),
-      fuel: fuleName,
+      fuel: fuelName,
       fipePrice: fipePrice,
       images: image,
     };

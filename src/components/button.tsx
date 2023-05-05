@@ -1,6 +1,7 @@
 import React from "react";
 
 interface iBaseButtonProps {
+  submitType?: boolean;
   className?: string;
   onClick?: (event: any) => void;
   tag?: "button" | "span";
@@ -27,16 +28,25 @@ const BaseButton = ({
   className,
   tag,
   onClick,
+  submitType,
 }: iBaseButtonProps) => {
   return (
     <>
       {!tag && (
-        <button className={className} onClick={onClick}>
+        <button
+          className={className}
+          onClick={onClick}
+          type={submitType ? "submit" : "button"}
+        >
           {children}
         </button>
       )}
       {tag === "button" && (
-        <button className={className} onClick={onClick}>
+        <button
+          className={className}
+          onClick={onClick}
+          type={submitType ? "submit" : "button"}
+        >
           {children}
         </button>
       )}

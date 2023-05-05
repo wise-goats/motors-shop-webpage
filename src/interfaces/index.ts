@@ -25,6 +25,20 @@ export interface iUserRegister {
   addresses: iAddress;
 }
 
+export interface iUserUpdate {
+  name?: string;
+  email?: string;
+  profile_image?: string | undefined;
+  password?: string;
+  passwordConfirm?: string;
+  cpf?: string;
+  phone?: string;
+  birthDate?: string;
+  isSeller?: string | boolean;
+  description?: string;
+  addresses?: iAddressUpdate;
+}
+
 export interface iAddress {
   street: string;
   number: string | number;
@@ -33,6 +47,15 @@ export interface iAddress {
   zipcode: string;
   complement: string;
   isSeller?: boolean;
+}
+
+export interface iAddressUpdate {
+  street?: string;
+  number?: string | number;
+  state?: string;
+  city?: string;
+  zipcode?: string;
+  complement?: string;
 }
 
 export interface iAdvertisement {
@@ -47,8 +70,13 @@ export interface iAdvertisement {
   price: number;
   descripition: string;
   is_active: boolean;
-  seller: iUser;
-  images: string[];
+  user: iUser;
+  images: iImage[];
+}
+
+export interface iImage {
+  image: string;
+  id: string;
 }
 
 export interface iUserProfile {

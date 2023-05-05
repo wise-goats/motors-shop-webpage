@@ -13,7 +13,7 @@ export default () => (
     <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/description" element={<ProductDescription />} />
-    <Route path="/profile" element={<ProfilePage />} />
+    <Route path="/profile/:id" element={<ProfilePage />} />
     <Route path="/profileadm" element={<ProfileAdminPage />} />
   </Routes>
 );

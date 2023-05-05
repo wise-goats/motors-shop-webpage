@@ -2,17 +2,20 @@ import React from "react";
 import StyledProductCard from "./style";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { iAdvertisement } from "../../interfaces";
-
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 interface iProductCardProps {
   advertisement: iAdvertisement;
 }
 
 const ProductCard = ({ advertisement }: iProductCardProps) => {
+  const { setSelectedCarId } = useAuthContext();
+  const navigate = useNavigate();
   return (
     <StyledProductCard>
-      <main className="productInfoMain">
+      {/* <main className="productInfoMain">
         <img
-          src={advertisement.images[0]}
+          src={advertisement.images[0].image}
           alt={advertisement.model}
           title={advertisement.model}
           className="productImage"
@@ -33,13 +36,17 @@ const ProductCard = ({ advertisement }: iProductCardProps) => {
 
       <section className="advertiserSection">
         <img
-          src={advertisement.seller.profile_image}
-          alt={advertisement.seller.name}
-          title={advertisement.seller.name}
+          src={advertisement.user.profile_image}
+          alt={advertisement.user.name}
+          title={advertisement.user.name}
           className="advertiserImage"
+          onClick={() => {
+            setSelectedCarId(advertisement.user.id);
+            navigate(`/profile/${advertisement.user.id}`);
+          }}
         />
         <StyledTitle className="advertiserName" tag="h3">
-          {advertisement.seller.name}
+          {advertisement.user.name}
         </StyledTitle>
       </section>
 
@@ -56,7 +63,7 @@ const ProductCard = ({ advertisement }: iProductCardProps) => {
         <StyledText fontWeight={600} tag="p">
           R$ {advertisement.price}
         </StyledText>
-      </footer>
+      </footer> */}
     </StyledProductCard>
   );
 };
