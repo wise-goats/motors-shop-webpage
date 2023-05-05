@@ -8,25 +8,91 @@ import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
 import { Header } from "../Header";
+import { Api } from "../../services/api";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../../contexts/AuthContext";
+
+interface userCardInformations {
+  name: string;
+  id: string;
+  description: string;
+}
+interface image {
+  image: string;
+  id: string;
+}
+interface Advertisement {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  fuel: string;
+  mileage: number;
+  color: string;
+  fipePrice: number;
+  price: number;
+  description: string;
+  isActive: boolean;
+  images: image[];
+  user: userCardInformations;
+}
 const PageProductDescriptionComponent = () => {
+  const [advertisementDescription, setAdvertisementDescription] =
+    useState<Advertisement>();
+
+  const { selectedCarDescriptionId } = useAuthContext();
+  useEffect(() => {
+    async function getAdvertisementByIdService(id: string) {
+      try {
+        return await Api.get(`advertisement/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {
+          console.log(res.data, "entrou-description-THEN");
+          setAdvertisementDescription(res.data);
+          return;
+        });
+      } catch (error) {
+        console.log(error, "description");
+        return;
+      }
+    }
+    getAdvertisementByIdService(selectedCarDescriptionId);
+  }, []);
+
+  const getInitials = (fullName: string): string => {
+    const names = fullName.split(" ");
+    const initials = names
+      .slice(0, 2)
+      .map((name) => name.charAt(0))
+      .join("");
+    return initials;
+  };
   return (
     <>
       <StyledPageProductDescriptionMobile>
         <div className="containerMobileImage">
           <figure>
-            <img className="imageCenter" src={car} alt="" />
+            <img
+              className="imageCenter"
+              src={advertisementDescription?.images[0].image}
+              alt={`Foto de anuncio de carro, modelo ${advertisementDescription?.model}`}
+            />
           </figure>
         </div>
         <div className="containerInformationsCar">
-          <span>{advertisementsMock[0].model}</span>
+          <span>{advertisementDescription?.model}</span>
           <div className="containerSpecialText">
-            <span className="specialText">{advertisementsMock[0].year}</span>
             <span className="specialText">
-              {advertisementsMock[0].mileage}KM
+              {advertisementDescription?.year}
+            </span>
+            <span className="specialText">
+              {advertisementDescription?.mileage}KM
             </span>
           </div>
           <StyledText fontWeight={600} tag="p">
-            R$ {advertisementsMock[0].price}
+            R$ {advertisementDescription?.price}
           </StyledText>
           <StyledButton buttonStyle="brand1">Comprar</StyledButton>
         </div>
@@ -34,10 +100,7 @@ const PageProductDescriptionComponent = () => {
         <div className="containerDescriptionCar">
           <StyledTitle tag="span">Descrição</StyledTitle>
           <StyledText tag="h7">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet dolore
-            quia iusto laborum accusantium sed libero ipsum. Eveniet tenetur
-            accusantium facilis natus fuga vero est veritatis, voluptatum
-            possimus labore voluptatibus.
+            {advertisementDescription?.description}
           </StyledText>
         </div>
 
@@ -45,22 +108,25 @@ const PageProductDescriptionComponent = () => {
           <StyledTitle tag="span">Fotos</StyledTitle>
 
           <ul>
-            {advertisementsMock[0].images.map((image, index) => (
+            {advertisementDescription?.images.map((image, index) => (
               <li key={index}>
-                <img src={image} alt="" />
+                <img src={`${image.image}`} alt="" />
               </li>
             ))}
           </ul>
         </div>
 
         <div className="containerUserInformation">
-          <span className="initialsOfNameInCircle">TA</span>
-          <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
+          <span className="initialsOfNameInCircle">
+            {getInitials(
+              advertisementDescription ? advertisementDescription.user.name : ""
+            )}
+          </span>
+          <StyledTitle tag="span">
+            {advertisementDescription?.user.name}
+          </StyledTitle>
           <StyledText tag="h7">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum
-            dolor sit amet consectetur Lorem ipsum dolor sit amet adipisicing
-            elitLorem ipsum dolor sit amet consectetur adipisicing elit Amet
-            dolore quia iusto laborum aptatibus.
+            {advertisementDescription?.user.description}
           </StyledText>
           <StyledButton buttonStyle="grey1">Ver todos anuncios</StyledButton>
         </div>
@@ -85,25 +151,26 @@ const PageProductDescriptionComponent = () => {
         </div>
       </StyledPageProductDescriptionMobile>
 
-      {/* ou */}
-
       <StyledPageProductDescriptionDesktop>
         <div className="containerOneDesktop">
           <div className="containerMobileImage">
             <figure>
-              <img className="imageCenter" src={car} alt="" />
+              <img
+                className="imageCenter"
+                src={advertisementDescription?.images[0].image}
+              />
             </figure>
           </div>
           <div className="containerInformationsCar">
-            <span>{advertisementsMock[0].model}</span>
+            <span>{advertisementDescription?.model}</span>
             <div className="containerSpecialText">
               <span className="specialText">{advertisementsMock[0].year}</span>
               <span className="specialText">
-                {advertisementsMock[0].mileage}KM
+                {advertisementDescription?.mileage}KM
               </span>
             </div>
             <StyledText fontWeight={600} tag="p">
-              R$ {advertisementsMock[0].price}
+              R$ {advertisementDescription?.price}
             </StyledText>
             <StyledButton buttonStyle="brand1">Comprar</StyledButton>
           </div>
@@ -111,17 +178,16 @@ const PageProductDescriptionComponent = () => {
           <div className="containerDescriptionCar">
             <StyledTitle tag="span">Descrição</StyledTitle>
             <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
+              {advertisementDescription?.description}
             </StyledText>
           </div>
 
           <div className="containerCommentInformation">
             <div className="containerUserNewComment">
               <span className="initialsOfNameInCircleNewComment">TA</span>
-              <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
+              <StyledTitle tag="span">
+                {advertisementDescription?.user.name}
+              </StyledTitle>
             </div>
 
             <Input
@@ -142,9 +208,12 @@ const PageProductDescriptionComponent = () => {
             <StyledTitle tag="span">Fotos</StyledTitle>
 
             <ul>
-              {advertisementsMock[0].images.map((image, index) => (
+              {advertisementDescription?.images.map((image, index) => (
                 <li key={index}>
-                  <img src={image} alt="" />
+                  <img
+                    src={image.image}
+                    alt={`Imagem do carro de modelo${advertisementDescription?.model}`}
+                  />
                 </li>
               ))}
             </ul>
@@ -154,10 +223,7 @@ const PageProductDescriptionComponent = () => {
             <span className="initialsOfNameInCircle">TA</span>
             <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
             <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem
-              ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet
-              adipisicing elitLorem ipsum dolor sit amet consectetur adipisicing
-              elit Amet dolore quia iusto laborum aptatibus.
+              {advertisementDescription?.user.description}
             </StyledText>
             <StyledButton buttonStyle="grey1">Ver todos anuncios</StyledButton>
           </div>

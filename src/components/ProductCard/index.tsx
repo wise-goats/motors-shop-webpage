@@ -9,10 +9,23 @@ interface iProductCardProps {
 }
 
 const ProductCard = ({ advertisement }: iProductCardProps) => {
-  const { setSelectedCarId } = useAuthContext();
+  const { setSelectedCarId, setSelectedCarDescriptionId } = useAuthContext();
+  const getInitials = (fullName: string): string => {
+    const names = fullName.split(" ");
+    const initials = names
+      .slice(0, 2)
+      .map((name) => name.charAt(0))
+      .join("");
+    return initials;
+  };
   const navigate = useNavigate();
   return (
-    <StyledProductCard>
+    <StyledProductCard
+      onClick={() => {
+        setSelectedCarDescriptionId(advertisement.id);
+        navigate(`/description/${advertisement.id}`);
+      }}
+    >
       <main className="productInfoMain">
         <img
           src={advertisement.images[0].image}
@@ -35,16 +48,18 @@ const ProductCard = ({ advertisement }: iProductCardProps) => {
       </main>
 
       <section className="advertiserSection">
-        <img
-          src={advertisement.user.profile_image}
-          alt={advertisement.user.name}
+        <span
           title={advertisement.user.name}
-          className="advertiserImage"
-          onClick={() => {
+          className="initialsOfNameInCircle"
+          onClick={(event) => {
             setSelectedCarId(advertisement.user.id);
             navigate(`/profile/${advertisement.user.id}`);
+            event.stopPropagation();
           }}
-        />
+        >
+          {getInitials(advertisement.user.name)}
+        </span>
+
         <StyledTitle className="advertiserName" tag="h3">
           {advertisement.user.name}
         </StyledTitle>
