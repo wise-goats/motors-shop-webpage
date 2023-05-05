@@ -1,13 +1,17 @@
 import RoutesMain from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Header } from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <>
+      <Header></Header>
+
       <ToastContainer
         position="bottom-right"
-        autoClose={false}
+        autoClose={true}
         newestOnTop
         closeOnClick
         rtl={false}
@@ -16,8 +20,10 @@ function App() {
         draggable
         theme="light"
       />
-
-      <RoutesMain />
+      <main className="App-body">
+        <RoutesMain />
+      </main>
+      <Footer />
     </>
   );
 }
