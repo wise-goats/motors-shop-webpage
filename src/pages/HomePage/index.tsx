@@ -23,15 +23,19 @@ export interface iFilter {
   color: string[];
   year: number[];
   fuel: number[];
+  mileage: { min?: number | undefined; max?: number | undefined };
+  price: { min?: number | undefined; max?: number | undefined };
 }
 
 export interface iActiveFilter {
-  [key: string]: string | number | undefined;
+  [key: string]: string | number | undefined | object;
   brand?: string | undefined;
   model?: string | undefined;
   color?: string | undefined;
   year?: number | undefined;
   fuel?: number | undefined;
+  mileage?: { min?: number | undefined; max?: number | undefined };
+  price?: { min?: number | undefined; max?: number | undefined };
 }
 
 export default () => {
@@ -58,6 +62,8 @@ export default () => {
           color: [],
           year: [],
           fuel: [],
+          mileage: { min: undefined, max: undefined },
+          price: { min: undefined, max: undefined },
         };
 
         ads.forEach((car) => {
