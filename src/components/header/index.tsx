@@ -35,7 +35,7 @@ export const Header = ({ children }: IHeaderProps) => {
             <EditAddressComponent setHandleModal={setHandleModal} />
           )}
           {modalContent == "profile" && (
-            <UserUpdateForm handleModal={() => setHandleModal} />
+            <UserUpdateForm handleModal={setHandleModal} />
           )}
         </Modal>
       )}

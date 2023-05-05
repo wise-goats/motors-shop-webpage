@@ -13,7 +13,7 @@ const ProductCard = ({ advertisement }: iProductCardProps) => {
   const navigate = useNavigate();
   return (
     <StyledProductCard>
-      {/* <main className="productInfoMain">
+      <main className="productInfoMain">
         <img
           src={advertisement.images[0].image}
           alt={advertisement.model}
@@ -63,7 +63,7 @@ const ProductCard = ({ advertisement }: iProductCardProps) => {
         <StyledText fontWeight={600} tag="p">
           R$ {advertisement.price}
         </StyledText>
-      </footer> */}
+      </footer>
     </StyledProductCard>
   );
 };
