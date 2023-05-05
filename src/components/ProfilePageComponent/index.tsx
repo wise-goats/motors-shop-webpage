@@ -4,25 +4,105 @@ import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Api } from "../../services/api";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { object } from "zod";
+
+interface userCardInformations {
+  name: string;
+  id: string;
+}
+interface image {
+  image: string;
+  id: string;
+}
+interface CardCar {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  fuel: string;
+  mileage: number;
+  color: string;
+  fipePrice: number;
+  price: number;
+  description: string;
+  isActive: boolean;
+  images: image[];
+  user: userCardInformations;
+}
+
+interface Advertisement {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  fuel: string;
+  mileage: number;
+  color: string;
+  fipePrice: number;
+  price: number;
+  description: string;
+  isActive: boolean;
+  images: image[];
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  isSeller: boolean;
+  phone: string;
+  description: string;
+  advertisement: Advertisement[];
+}
 const ProfilePageComponent = () => {
-  const [isAdm, setIsAdm] = useState(true);
-  return isAdm === false ? (
+  const { selectedCarId, user } = useAuthContext();
+  const [isAdm, setIsAdm] = useState(false);
+  const [carUserCommom, setCarUserCommom] = useState<User>();
+
+  const getInitials = (fullName: string): string => {
+    const names = fullName.split(" ");
+    const initials = names
+      .slice(0, 2)
+      .map((name) => name.charAt(0))
+      .join("");
+    return initials;
+  };
+
+  useEffect(() => {
+    async function dataCardListProfile(id: string) {
+      try {
+        return await Api.get(`users/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {
+          console.log(res.data.advertisement, "entrou");
+          setCarUserCommom(res.data);
+          return;
+        });
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    }
+    dataCardListProfile(selectedCarId);
+  }, []);
+  console.log(selectedCarId, "AQUI", user?.id);
+  return selectedCarId === user?.id ? (
     <>
       <StyledProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
             <span className="imageCicleName">SL</span>
             <div className="containerName">
-              <span>Samuel Leão</span>
+              <span>{carUserCommom?.name}</span>
               <span className="specialText">Anunciante</span>
             </div>
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
+            <StyledText tag="h7">{carUserCommom?.description}</StyledText>
 
             <StyledButton buttonStyle="outlineBrand">
               Criar anuncio
@@ -31,250 +111,33 @@ const ProfilePageComponent = () => {
         </div>
 
         <ul>
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
+          {carUserCommom?.advertisement.map((car) => (
+            <li>
+              <figure>
+                <img
+                  className="imgCarCard"
+                  src={`${car.images[0].image}`}
+                  alt={`imagem ilustrativa de carro modelo${car?.model}`}
+                />
+              </figure>
+              <span>{car?.model}</span>
 
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
+              <StyledText tag="h7">{car?.description}</StyledText>
+              <div className="containerCarInformations">
+                <div>
+                  <span className="specialTextCard">{car?.mileage} KM</span>
+                  <span className="specialTextCard">{car?.year}</span>
+                </div>
+                <StyledText fontWeight={600} tag="p">
+                  R$ {car?.price}
+                </StyledText>
               </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
+              <div className="containerBtns">
+                <StyledButton buttonStyle="outline1">Editar</StyledButton>
+                <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
               </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-            <div className="containerBtns">
-              <StyledButton buttonStyle="outline1">Editar</StyledButton>
-              <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-            </div>
-          </li>
+            </li>
+          ))}
         </ul>
       </StyledProfilePage>
     </>
@@ -283,302 +146,51 @@ const ProfilePageComponent = () => {
       <StyledCommomProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
-            <span className="imageCicleName">SL</span>
+            <span className="imageCicleName">
+              {getInitials(carUserCommom ? carUserCommom?.name : "")}
+            </span>
             <div className="containerName">
-              <span>Samuel Leão</span>
+              <span>{carUserCommom?.name}</span>
               <span className="specialText">Anunciante</span>
             </div>
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
+            <StyledText tag="h7">{carUserCommom?.description}</StyledText>
           </div>
         </div>
 
         <ul>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
+          {carUserCommom?.advertisement.map((car) => (
+            <li key={car.id}>
+              <figure>
+                <span className="statusCar">
+                  {car.isActive === true ? "Ativo" : "Inativo"}
+                </span>
+                <img
+                  className="imgCarCard"
+                  src={`${car?.images[0].image}`}
+                  alt={`${car?.model} model car image`}
+                />
+              </figure>
+              <span>{car?.model}</span>
+              <StyledText tag="h7">{car?.description}</StyledText>
+              <div className="containerNameCardAd">
+                <StyledText className="cicleCardSeller" tag="h3">
+                  {getInitials(carUserCommom.name)}
+                </StyledText>
+                <StyledText tag="h3">{carUserCommom.name}</StyledText>
               </div>
 
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
+              <div className="containerCarInformations">
+                <div>
+                  <span className="specialTextCard">{car?.mileage} KM</span>
+                  <span className="specialTextCard">{car?.year}</span>
+                </div>
 
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
+                <StyledText fontWeight={600} tag="p">
+                  R$ {car?.price}
+                </StyledText>
               </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
-          <li>
-            <figure>
-              <span className="statusCar">Ativo</span>
-              <img
-                className="imgCarCard"
-                src="https://bloximages.chicago2.vip.townnews.com/nwitimes.com/content/tncms/assets/v3/editorial/4/f2/4f277f47-c14f-5629-bf0e-c4ea9bc5869d/4e29d0f88485c.image.jpg"
-                alt=""
-              />
-            </figure>
-            <span>Mercedes Bendz</span>
-
-            <StyledText tag="h7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              dolore quia iusto laborum accusantium sed libero ipsum. Eveniet
-              tenetur accusantium facilis natus fuga vero est veritatis,
-              voluptatum possimus labore voluptatibus.
-            </StyledText>
-            <div className="containerNameCardAd">
-              <StyledText className="cicleCardSeller" tag="h3">
-                SL
-              </StyledText>
-              <StyledText tag="h3">Samuel Leão</StyledText>
-            </div>
-
-            <div className="containerCarInformations">
-              <div>
-                <span className="specialTextCard">0 KM</span>
-                <span className="specialTextCard">2019</span>
-              </div>
-
-              <StyledText fontWeight={600} tag="p">
-                R$ 80000
-              </StyledText>
-            </div>
-          </li>
+            </li>
+          ))}
         </ul>
       </StyledCommomProfilePage>
     </>

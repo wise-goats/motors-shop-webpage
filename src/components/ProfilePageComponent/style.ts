@@ -67,6 +67,7 @@ export const StyledProfilePage = styled.div`
     flex-direction: column;
     padding: 20px;
     gap: 20px;
+    width: 262px;
     figure {
       display: flex;
       align-items: center;
@@ -95,11 +96,18 @@ export const StyledProfilePage = styled.div`
     }
   }
   @media only screen and (min-width: 600px) {
+    button {
+      /* max-width: 50%; */
+    }
     .containerInformationsUser {
       max-height: 20vh;
     }
     .containerInformationsUser {
       width: 80%;
+    }
+    .containerCarInformations {
+      display: flex;
+      flex-wrap: wrap;
     }
 
     ul {
@@ -110,10 +118,17 @@ export const StyledProfilePage = styled.div`
       max-width: 100vw;
       overflow-y: unset;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 5%;
     }
     li {
-      width: 22%;
+      width: 21.2%;
+    }
+
+    figure {
+      .imgCarCard {
+        max-width: 100%;
+        /* height: 150.28px; */
+      }
     }
   }
 `;

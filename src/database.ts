@@ -1,6 +1,6 @@
 export const carros = [
   {
-    id: "abc",
+    id: "x",
     brand: "Ford",
     model: "Ka 2010",
     year: 2010,
@@ -11,8 +11,8 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
-      id: "sbaisa",
+    user: {
+      id: "1976eed2-da25-48de-a674-524074487fd4",
       name: "Nome",
       email: "email@mail.com",
 
@@ -40,8 +40,8 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
-      id: "sbaisa",
+    user: {
+      id: "3dfc347c-a75f-484a-8cf7-808f7b2fb58b",
       name: "Nome",
       email: "email@mail.com",
 
@@ -69,8 +69,8 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
-      id: "sbaisa",
+    user: {
+      id: "3dfc347c-a75f-484a-8cf7-808f7b2fb58b",
       name: "Nome",
       email: "email@mail.com",
 
@@ -98,7 +98,7 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
+    user: {
       id: "sbaisa",
       name: "Nome",
       email: "email@mail.com",
@@ -127,8 +127,8 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
-      id: "sbaisa",
+    user: {
+      id: "dsds",
       name: "Nome",
       email: "email@mail.com",
 
@@ -156,8 +156,8 @@ export const carros = [
     price: 38000,
     descripition: "descrição do carro",
     is_active: true,
-    seller: {
-      id: "sbaisa",
+    user: {
+      id: "7af6364f-5785-4663-a099-a00db2dd49a9",
       name: "Nome",
       email: "email@mail.com",
 
