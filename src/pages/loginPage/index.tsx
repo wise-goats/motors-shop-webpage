@@ -16,9 +16,7 @@ interface ILogin {
 }
 
 export const LoginPage = () => {
-
   const { userLogin } = useAuthContext();
-
 
   const schema = z.object({
     email: z.string().email("Deve ser um email válido"),
@@ -70,7 +68,9 @@ export const LoginPage = () => {
             Esqueci minha senha
           </StyledText>
 
-          <StyledButton buttonStyle="brand1">Entrar</StyledButton>
+          <StyledButton buttonStyle="brand1" submitType={true}>
+            Entrar
+          </StyledButton>
           <StyledText tag="p" fontSize={14} color="--grey-2">
             Ainda não possui conta?
           </StyledText>
