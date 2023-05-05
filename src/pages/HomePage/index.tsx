@@ -39,6 +39,17 @@ export interface iActiveFilter {
 }
 
 export default () => {
+  const { user } = useAuthContext();
+  const [advertisements, setAdvertisements] = useState<iAdvertisement[]>([]);
+  const [isFilterModal, setIsFilterModal] = useState<boolean>(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [filters, setFilters] = useState<iFilter>({} as iFilter);
+  const [filteredAds, setFilteredAds] = useState<iAdvertisement[]>([]);
+  const [filteredModels, setFilteredModels] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<iActiveFilter>(
+    {} as iActiveFilter
+  );
+
   useEffect(() => {
     async function getAds() {
       try {
@@ -79,16 +90,6 @@ export default () => {
     }
     getAds();
   }, []);
-  const { user } = useAuthContext();
-  const [advertisements, setAdvertisements] = useState<iAdvertisement[]>([]);
-  const [isFilterModal, setIsFilterModal] = useState<boolean>(false);
-  const [isFiltered, setIsFiltered] = useState<boolean>(false);
-  const [filters, setFilters] = useState<iFilter>({} as iFilter);
-  const [filteredAds, setFilteredAds] = useState<iAdvertisement[]>([]);
-  const [filteredModels, setFilteredModels] = useState<string[]>([]);
-  const [activeFilters, setActiveFilters] = useState<iActiveFilter>(
-    {} as iActiveFilter
-  );
 
   const handleModal = () => {
     setIsFilterModal(!isFilterModal);

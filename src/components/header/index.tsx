@@ -6,6 +6,9 @@ import { StyledButton } from "../../styles/button";
 import mokeProfile from "../../assets/mokedProfile.svg";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { useAuthContext } from "../../contexts/AuthContext";
+import Modal from "../Modal";
+import EditAddressComponent from "../editAddress";
+import UserUpdateForm from "../UserUpdateForm";
 
 interface IHeaderProps {
   children?: React.ReactNode;
@@ -13,12 +16,30 @@ interface IHeaderProps {
 
 export const Header = ({ children }: IHeaderProps) => {
   // const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
-  const { user } = useAuthContext();
+  const { user, exit } = useAuthContext();
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");
   const navigate = useNavigate();
+
+  const [handleModal, setHandleModal] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>();
+
   return (
     <StyledHeader>
+      {handleModal && (
+        <Modal
+          title="Editar endereço"
+          handleModal={() => setHandleModal(!handleModal)}
+        >
+          {modalContent == "address" && (
+            <EditAddressComponent setHandleModal={setHandleModal} />
+          )}
+          {modalContent == "profile" && (
+            <UserUpdateForm handleModal={setHandleModal} />
+          )}
+        </Modal>
+      )}
+
       <Link to={"/"}>
         <img src={logo} alt="logo" />
       </Link>
@@ -55,23 +76,37 @@ export const Header = ({ children }: IHeaderProps) => {
             <StyledText tag="h3" color="--grey-2" className="profile">
               {user.name}
             </StyledText>
-            <nav className={`${!toast && "hide_toast"} profirl_options`}>
+            <nav className={`${toast && "hide_toast"} profirl_options`}>
               <StyledText
                 tag="p"
                 color="--grey-2"
-                onClick={() => navigate("/profile")}
+                onClick={() => {
+                  setModalContent("profile");
+                  setHandleModal(!handleModal);
+                }}
               >
                 Editar Perfil
               </StyledText>
-              <StyledText tag="p" color="--grey-2">
+              <StyledText
+                onClick={() => {
+                  setModalContent("address");
+                  setHandleModal(!handleModal);
+                }}
+                tag="p"
+                color="--grey-2"
+              >
                 Editar Endereço
               </StyledText>
               {user.isSeller && (
-                <StyledText tag="p" color="--grey-2">
+                <StyledText
+                  onClick={() => navigate("/profileadm")}
+                  tag="p"
+                  color="--grey-2"
+                >
                   Meus Anúcio
                 </StyledText>
               )}
-              <StyledText tag="p" color="--grey-2">
+              <StyledText onClick={() => exit()} tag="p" color="--grey-2">
                 Sair
               </StyledText>
             </nav>

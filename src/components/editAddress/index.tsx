@@ -20,7 +20,11 @@ interface IAddressUpdated {
   zipcode?: string;
 }
 
-const EditAddressComponent = () => {
+interface IEditAddressProps {
+  setHandleModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const EditAddressComponent = ({ setHandleModal }: IEditAddressProps) => {
   const schema = z.object({
     street: z.string(),
     number: z.number(),
@@ -50,6 +54,7 @@ const EditAddressComponent = () => {
           progress: undefined,
           theme: "light",
         });
+        setHandleModal(false);
       })
       .catch((err) => {
         toast(`${err.message}`, {
@@ -118,7 +123,12 @@ const EditAddressComponent = () => {
         </div>
 
         <div>
-          <StyledButton buttonStyle="negative">Cancelar</StyledButton>
+          <StyledButton
+            onClick={() => setHandleModal(false)}
+            buttonStyle="negative"
+          >
+            Cancelar
+          </StyledButton>
           <StyledButton buttonStyle="brand1">Salvar alterações</StyledButton>
         </div>
       </Form>

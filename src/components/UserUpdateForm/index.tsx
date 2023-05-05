@@ -10,7 +10,7 @@ import { StyledTextInput } from "../../styles/input";
 import { StyledButton } from "../../styles/button";
 
 interface iUserUpdateFormProps {
-  handleModal?: () => void;
+  handleModal: React.Dispatch<React.SetStateAction<boolean>>;
   handleDeleteModal?: () => void;
 }
 
@@ -30,6 +30,7 @@ const UserUpdateForm = ({
   const update = async (data: iUserUpdate) => {
     console.log(data);
     updateUser(data);
+    handleModal(false);
     reset();
   };
   return (
@@ -105,7 +106,7 @@ const UserUpdateForm = ({
           </StyledText>
         </label>
       </div>
-      <StyledButton buttonStyle="negative" onClick={() => handleModal}>
+      <StyledButton buttonStyle="negative" onClick={() => handleModal(false)}>
         Cancelar
       </StyledButton>
       <StyledButton buttonStyle="alert" onClick={() => handleDeleteModal}>

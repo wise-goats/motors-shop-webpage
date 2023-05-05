@@ -18,6 +18,7 @@ export interface iAuthContext {
   user: iUserProfile | null;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
+  exit: () => void;
   selectedCarId: string;
   setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
   updateUser: (data: iUserUpdate) => void;
@@ -104,6 +105,12 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
     }
   };
 
+  const exit = () => {
+    localStorage.removeItem("@MYTOKEN");
+    setUser(null);
+    navigate("/");
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -112,6 +119,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         registerUser,
         selectedCarId,
         setSelectedCarId,
+        exit,
         updateUser,
       }}
     >
