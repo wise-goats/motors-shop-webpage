@@ -15,6 +15,7 @@ import { carros } from "../../database";
 import { iAdvertisement } from "../../interfaces";
 import FiltersComponent from "./FiltersComponent";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { Api } from "../../services/api";
 
 export interface iFilter {
   brand: string[];
@@ -34,40 +35,51 @@ export interface iActiveFilter {
 }
 
 export default () => {
-  const { user } = useAuthContext();
-
   useEffect(() => {
-    let filter: iFilter = {
-      brand: [],
-      model: [],
-      color: [],
-      year: [],
-      fuel: [],
-    };
-    carros.forEach((car) => {
-      if (!filter.brand?.includes(car.brand)) {
-        filter.brand = [...filter.brand, car.brand];
-      }
-      if (!filter.model?.includes(car.model)) {
-        filter.model = [...filter.model, car.model];
-      }
-      if (!filter.color?.includes(car.color)) {
-        filter.color = [...filter.color, car.color];
-      }
-      if (!filter.year?.includes(car.year)) {
-        filter.year = [...filter.year, car.year];
-      }
-      if (!filter.fuel?.includes(car.fuel)) {
-        filter.fuel = [...filter.fuel, car.fuel];
-      }
-    });
-    setFilters(filter);
-  }, []);
+    async function getAds() {
+      try {
+        const res = await Api.get("/advertisement");
+        setAdvertisements(res.data);
+        let ads: iAdvertisement[] = res.data;
+        let filter: iFilter = {
+          brand: [],
+          model: [],
+          color: [],
+          year: [],
+          fuel: [],
+        };
 
+        ads.forEach((car) => {
+          if (!filter.brand?.includes(car.brand)) {
+            filter.brand = [...filter.brand, car.brand];
+          }
+          if (!filter.model?.includes(car.model)) {
+            filter.model = [...filter.model, car.model];
+          }
+          if (!filter.color?.includes(car.color)) {
+            filter.color = [...filter.color, car.color];
+          }
+          if (!filter.year?.includes(car.year)) {
+            filter.year = [...filter.year, car.year];
+          }
+          if (!filter.fuel?.includes(car.fuel)) {
+            filter.fuel = [...filter.fuel, car.fuel];
+          }
+        });
+        setFilters(filter);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAds();
+  }, []);
+  const { user } = useAuthContext();
+  const [advertisements, setAdvertisements] = useState<iAdvertisement[]>([]);
   const [isFilterModal, setIsFilterModal] = useState<boolean>(false);
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   const [filters, setFilters] = useState<iFilter>({} as iFilter);
   const [filteredAds, setFilteredAds] = useState<iAdvertisement[]>([]);
+  const [filteredModels, setFilteredModels] = useState<string[]>([]);
   const [activeFilters, setActiveFilters] = useState<iActiveFilter>(
     {} as iActiveFilter
   );
@@ -83,8 +95,12 @@ export default () => {
         <div className="flex">
           <ProductList>
             {isFiltered
-              ? filteredAds.map((car) => <ProductCard advertisement={car} />)
-              : carros.map((car) => <ProductCard advertisement={car} />)}
+              ? filteredAds.map((car) => (
+                  <ProductCard key={car.id} advertisement={car} />
+                ))
+              : advertisements.map((car) => (
+                  <ProductCard key={car.id} advertisement={car} />
+                ))}
           </ProductList>
           <StyledButton
             buttonSize="big"
@@ -113,6 +129,9 @@ export default () => {
               activeFilters={activeFilters}
               filteredAds={filteredAds}
               setIsFiltered={setIsFiltered}
+              filteredModels={filteredModels}
+              setFilteredModels={setFilteredModels}
+              advertisements={advertisements}
             />
           </Modal>
         ) : (
@@ -124,6 +143,9 @@ export default () => {
             activeFilters={activeFilters}
             filteredAds={filteredAds}
             setIsFiltered={setIsFiltered}
+            filteredModels={filteredModels}
+            setFilteredModels={setFilteredModels}
+            advertisements={advertisements}
             hide={true}
           />
         )}

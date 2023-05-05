@@ -9,14 +9,13 @@ interface iProductCardProps {
 }
 
 const ProductCard = ({ advertisement }: iProductCardProps) => {
-  console.log(advertisement);
   const { setSelectedCarId } = useAuthContext();
   const navigate = useNavigate();
   return (
     <StyledProductCard>
       <main className="productInfoMain">
         <img
-          src={advertisement.images[0]}
+          src={advertisement.images[0].image}
           alt={advertisement.model}
           title={advertisement.model}
           className="productImage"

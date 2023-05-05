@@ -8,47 +8,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { iUserRegister } from "../../interfaces";
+import { userCreateSchema, userSchema } from "../../schemas/user.schemas";
 
 export const RegisterPage = () => {
   const { registerUser } = useAuthContext();
-
-  const addressSchema = z.object({
-    street: z.string(),
-    number: z.string().regex(/^\d+$/),
-    complement: z.string().optional(),
-    state: z.string(),
-    city: z.string(),
-    zipcode: z.string(),
-  });
-  const schema = z
-    .object({
-      name: z.string(),
-      email: z.string().email(),
-      isSeller: z.string(),
-      cpf: z
-        .string()
-        .max(11)
-        .regex(/^\d{11}$/)
-        .trim()
-        .optional(),
-      phone: z.string().max(16),
-      birthDate: z.string(),
-      description: z.string(),
-      password: z.string().max(15).trim(),
-      passwordConfirm: z.string().max(15).trim(),
-      addresses: addressSchema,
-    })
-    .refine((data) => data.password === data.passwordConfirm, {
-      message: "As senhas devem ser iguais!",
-      path: ["passwordConfirm"],
-    });
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<iUserRegister>({ resolver: zodResolver(schema) });
+  } = useForm<iUserRegister>({ resolver: zodResolver(userCreateSchema) });
   console.log(errors);
 
   const newRegister = async (data: iUserRegister) => {

@@ -11,7 +11,7 @@ function App() {
 
       <ToastContainer
         position="bottom-right"
-        autoClose={false}
+        autoClose={true}
         newestOnTop
         closeOnClick
         rtl={false}
