@@ -21,12 +21,15 @@ export interface iAuthContext {
   selectedCarId: string;
   setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
   updateUser: (data: iUserUpdate) => void;
+  selectedCarDescriptionId: string;
+  setSelectedCarDescriptionId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
 
 export const AuthProvider = ({ children }: iAuthProviderProps) => {
   const [selectedCarId, setSelectedCarId] = useState("");
+  const [selectedCarDescriptionId, setSelectedCarDescriptionId] = useState("");
   const [user, setUser] = useState<iUserProfile | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -113,6 +116,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         selectedCarId,
         setSelectedCarId,
         updateUser,
+        selectedCarDescriptionId,
+        setSelectedCarDescriptionId,
       }}
     >
       {children}

@@ -60,7 +60,6 @@ interface User {
 }
 const ProfilePageComponent = () => {
   const { selectedCarId, user } = useAuthContext();
-  const [isAdm, setIsAdm] = useState(false);
   const [carUserCommom, setCarUserCommom] = useState<User>();
 
   const getInitials = (fullName: string): string => {
@@ -80,7 +79,6 @@ const ProfilePageComponent = () => {
             "Content-Type": "application/json",
           },
         }).then((res) => {
-          console.log(res.data.advertisement, "entrou");
           setCarUserCommom(res.data);
           return;
         });
@@ -91,7 +89,7 @@ const ProfilePageComponent = () => {
     }
     dataCardListProfile(selectedCarId);
   }, []);
-  console.log(selectedCarId, "AQUI", user?.id);
+
   return selectedCarId === user?.id ? (
     <>
       <StyledProfilePage>

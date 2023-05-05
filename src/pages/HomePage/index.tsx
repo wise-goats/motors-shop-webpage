@@ -4,7 +4,7 @@ import Modal from "../../components/Modal";
 import Form from "../../components/form";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import Input from "../../components/input";
-import { Header } from "../../components/Header";
+// import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
 import Banner from "../../components/Banner";
 import bannerImg from "../../assets/banner.png";
