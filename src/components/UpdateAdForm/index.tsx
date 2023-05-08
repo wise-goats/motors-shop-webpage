@@ -5,7 +5,7 @@ import { StyledTextInput } from "../../styles/input";
 import { StyledText } from "../../styles/typography";
 import Form from "../form";
 import { StyledButton } from "../../styles/button";
-import StyledForm from "./styles";
+import StyledForm from "./style";
 
 import { Api } from "../../services/api";
 import { FipeApi } from "../../services/fipeApi";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-interface ICar {
+interface IFormCar {
   id: string;
   name: string;
   brand: string;
@@ -33,8 +33,28 @@ interface IImage {
   image: string;
 }
 
-const CreateAdForm = () => {
-  const [cars, setCars] = useState<ICar[]>([]);
+interface IUpgradeAdProps {
+  id: string;
+}
+
+interface iAdvertisement {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  fuel: string;
+  mileage: number;
+  color: string;
+  fipePrice: number;
+  price: number;
+  description: string;
+  isActive: boolean;
+}
+
+const UpdateAdForm = ({ id }: IUpgradeAdProps) => {
+  const [advertisement, setAdvertisement] = useState<iAdvertisement>();
+
+  const [cars, setCars] = useState<IFormCar[]>([]);
   const [carsName, setCarsName] = useState<string[]>([]);
   const [carsYear, setCarsYear] = useState<string[]>([]);
   const [carsFuel, setCarsFuel] = useState<number[]>([]);
@@ -45,6 +65,7 @@ const CreateAdForm = () => {
   const [fuel, setFuel] = useState<number>();
   const [fipePrice, setFipePrice] = useState<number>();
   const [image, setImage] = useState<IImage[]>([]);
+  const [isActive, setIsActive] = useState<boolean>(true);
 
   const [showFipePrice, setShowFipePrice] = useState<string>();
   const [imgCount, setImgCount] = useState<number>(1);
@@ -89,7 +110,7 @@ const CreateAdForm = () => {
     setImage([...image, { image: e.target.value }]);
   };
 
-  const addNewAdvertisement = async (formData: any) => {
+  const updateAdeAdvertisement = async (formData: any) => {
     let fuelName = "Flex";
     if (fuel == 2) {
       fuelName = "Híbrido";
@@ -104,14 +125,26 @@ const CreateAdForm = () => {
       fuel: fuelName,
       fipePrice: fipePrice,
       images: image,
+      isActive: isActive,
     };
 
-    await Api.post("advertisement", data)
+    console.log(data, `advertisement/${id}`);
+
+    await Api.patch(`advertisement/${id}`, data)
       .then((res) => {
-        toast.success("Anúncio criado com sucesso");
+        toast.success("Anúncio editado com sucesso");
       })
       .catch((err) => {
-        toast.error(`${err.message}`);
+        toast.error(`${err.responce.data.message}`);
+      });
+  };
+
+  const deleteAdvertisement = async () => {
+    await Api.delete(`advertisement/${id}`)
+      .then((res) => toast.success("Anúncio deletado com sucesso"))
+      .catch((err) => {
+        console.log(err);
+        toast.error("Falha ao deletar anúncio");
       });
   };
 
@@ -128,6 +161,23 @@ const CreateAdForm = () => {
   };
 
   useEffect(() => {
+    const getAdvertisement = async () => {
+      await Api.get(`advertisement/${id}`).then((res) => {
+        setAdvertisement(res.data);
+        setImage(res.data.images);
+        const fuel = res.data.fuel;
+        if (fuel == "Flex") {
+          setFuel(1);
+        } else if (fuel == "Híbrido") {
+          setFuel(2);
+        } else if (fuel == "Elétrico") {
+          setFuel(3);
+        }
+      });
+    };
+
+    getAdvertisement();
+
     getCars(brands[1]);
     setBrand(brands[1]);
   }, []);
@@ -196,7 +246,7 @@ const CreateAdForm = () => {
 
   return (
     <StyledForm>
-      <Form onSubmit={handleSubmit(addNewAdvertisement)}>
+      <Form onSubmit={handleSubmit(updateAdeAdvertisement)}>
         <StyledText tag="p">Informações do veícolo</StyledText>
         <StyledText tag="label">
           Marca
@@ -206,6 +256,7 @@ const CreateAdForm = () => {
               setBrand(e.target.value);
             }}
           >
+            <option>Selecionar</option>
             {brands.map((elen) => {
               return (
                 <option key={elen} value={elen}>
@@ -274,15 +325,18 @@ const CreateAdForm = () => {
             <StyledTextInput
               {...register("mileage", { valueAsNumber: true })}
               type="number"
-              placeholder="Digitar qulometragen"
+              placeholder={`${advertisement?.mileage}`}
             />
           </StyledText>
           <StyledText tag="span" fontSize={13} color="--alert-1">
             {errors.mileage?.message}
           </StyledText>
           <StyledText tag="label">
-            Cor{" "}
-            <StyledTextInput {...register("color")} placeholder="Digitar cor" />
+            Cor
+            <StyledTextInput
+              {...register("color")}
+              placeholder={`${advertisement?.color}`}
+            />
           </StyledText>
           <StyledText tag="span" fontSize={13} color="--alert-1">
             {errors.color?.message}
@@ -296,11 +350,11 @@ const CreateAdForm = () => {
             </StyledText>
           </StyledText>
           <StyledText tag="label">
-            Preço{" "}
+            Preço
             <StyledTextInput
               {...register("price", { valueAsNumber: true })}
               type="number"
-              placeholder="R$ 00,00"
+              placeholder={`${advertisement?.price}`}
             />
           </StyledText>
         </div>
@@ -308,8 +362,25 @@ const CreateAdForm = () => {
           Descrição
           <textarea
             {...register("description")}
-            placeholder="Digitar descrição"
+            placeholder={`${advertisement?.description}`}
           />
+        </StyledText>
+        <StyledText tag="p">
+          Publicado
+          <div className="btn_is_active">
+            <StyledButton
+              onClick={() => setIsActive(true)}
+              buttonStyle={isActive ? "brand1" : "outline1"}
+            >
+              Sim
+            </StyledButton>
+            <StyledButton
+              onClick={() => setIsActive(false)}
+              buttonStyle={isActive ? "outline1" : "brand1"}
+            >
+              Não
+            </StyledButton>
+          </div>
         </StyledText>
         <StyledText tag="label">
           Imagen da capa
@@ -340,12 +411,19 @@ const CreateAdForm = () => {
           Adicionar campo para imagem da galeria
         </StyledButton>
         <div>
-          <StyledButton buttonStyle="negative">Cancelar</StyledButton>
-          <StyledButton buttonStyle="brand1">Criar anúncio</StyledButton>
+          <StyledButton
+            onClick={() => deleteAdvertisement()}
+            buttonStyle="alert"
+          >
+            Excluir Anúncio
+          </StyledButton>
+          <button className="btn_submit" type="submit">
+            Salvar Alterações
+          </button>
         </div>
       </Form>
     </StyledForm>
   );
 };
 
-export default CreateAdForm;
+export default UpdateAdForm;

@@ -40,7 +40,7 @@ export const Header = ({ children }: IHeaderProps) => {
         </Modal>
       )}
 
-      <Link to={"/"}>
+      <Link to={"/teste"}>
         <img src={logo} alt="logo" />
       </Link>
       <div
