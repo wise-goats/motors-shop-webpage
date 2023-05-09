@@ -28,4 +28,8 @@ const userCreateSchema = userSchema.extend({
 
 const userUpdateSchema = userCreateSchema.partial();
 
-export { userSchema, userCreateSchema, userUpdateSchema };
+const newCommentSchema = z.object({
+  description: z.string(),
+});
+
+export { userSchema, userCreateSchema, userUpdateSchema, newCommentSchema };

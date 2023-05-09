@@ -11,6 +11,13 @@ import { Header } from "../Header";
 import { Api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
+import Form from "../form";
+import { newCommentSchema } from "../../schemas/user.schemas";
+import { IComment, iCommentRegister } from "../../interfaces";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { StyledTextInput } from "../../styles/input";
+import { useParams } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -39,26 +46,44 @@ interface Advertisement {
 const PageProductDescriptionComponent = () => {
   const [advertisementDescription, setAdvertisementDescription] =
     useState<Advertisement>();
+  const [comments, setComments] = useState<IComment[]>([]);
+  const { selectedCarDescriptionId, registerComment } = useAuthContext();
+  const { id } = useParams();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<iCommentRegister>({ resolver: zodResolver(newCommentSchema) });
+  console.log(errors);
 
-  const { selectedCarDescriptionId } = useAuthContext();
   useEffect(() => {
-    async function getAdvertisementByIdService(id: string) {
+    async function getAdvertisementByIdService() {
       try {
         return await Api.get(`advertisement/${id}`, {
           headers: {
             "Content-Type": "application/json",
           },
         }).then((res) => {
-          console.log(res.data, "entrou-description-THEN");
           setAdvertisementDescription(res.data);
           return;
         });
       } catch (error) {
         console.log(error, "description");
-        return;
       }
     }
-    getAdvertisementByIdService(selectedCarDescriptionId);
+    async function getAdvertiseComments() {
+      try {
+        return await Api.get(`advertisement/${id}/comment`).then((res) => {
+          setComments(res.data[0].comments);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getAdvertisementByIdService();
+    getAdvertiseComments();
   }, []);
 
   const getInitials = (fullName: string): string => {
@@ -68,6 +93,11 @@ const PageProductDescriptionComponent = () => {
       .map((name) => name.charAt(0))
       .join("");
     return initials;
+  };
+
+  const newComment = async (data: iCommentRegister) => {
+    registerComment(data, id!);
+    reset();
   };
   return (
     <>
@@ -104,6 +134,12 @@ const PageProductDescriptionComponent = () => {
           </StyledText>
         </div>
 
+        <div>
+          <StyledTitle tag="span">Comentários</StyledTitle>
+          {comments &&
+            comments.map((c) => <div key={c.id}>{c.description}</div>)}
+        </div>
+
         <div className="containerImagesCar">
           <StyledTitle tag="span">Fotos</StyledTitle>
 
@@ -137,12 +173,16 @@ const PageProductDescriptionComponent = () => {
             <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
           </div>
 
-          <Input
-            register={() => {}}
-            type="textarea"
-            placeholder="Digite algo..."
-          />
-          <StyledButton buttonStyle="brand1">Comentar</StyledButton>
+          <Form onSubmit={handleSubmit(newComment)}>
+            <StyledTextInput
+              {...register("description")}
+              type="textarea"
+              placeholder="Digite algo..."
+            />
+            <StyledButton buttonStyle="brand1" submitType={true}>
+              Comentar
+            </StyledButton>
+          </Form>
           <div className="automaticComment">
             <button>Gostei muito!</button>
             <button>Incrível!</button>
@@ -189,13 +229,18 @@ const PageProductDescriptionComponent = () => {
                 {advertisementDescription?.user.name}
               </StyledTitle>
             </div>
-
-            <Input
-              register={() => {}}
-              type="textarea"
-              placeholder="Digite algo..."
-            />
-            <StyledButton buttonStyle="brand1">Comentar</StyledButton>
+            {comments &&
+              comments.map((c) => <div key={c.id}>{c.description}</div>)}
+            <Form onSubmit={handleSubmit(newComment)}>
+              <StyledTextInput
+                {...register("description")}
+                type="textarea"
+                placeholder="Digite algo..."
+              />
+              <StyledButton buttonStyle="brand1" submitType={true}>
+                Comentar
+              </StyledButton>
+            </Form>
             <div className="automaticComment">
               <button>Gostei muito!</button>
               <button>Incrível!</button>
