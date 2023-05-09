@@ -2,8 +2,6 @@ import {
   StyledPageProductDescriptionMobile,
   StyledPageProductDescriptionDesktop,
 } from "./style";
-import { advertisementsMock, advertiserMock } from "../../services/mock";
-import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
 import Input from "../input";
@@ -11,11 +9,14 @@ import { Header } from "../Header";
 import { Api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { Params } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
   id: string;
   description: string;
+  phone: string;
 }
 interface image {
   image: string;
@@ -36,29 +37,46 @@ interface Advertisement {
   images: image[];
   user: userCardInformations;
 }
+
 const PageProductDescriptionComponent = () => {
+  const { id } = useParams<Params>();
   const [advertisementDescription, setAdvertisementDescription] =
     useState<Advertisement>();
+  const navigate = useNavigate();
+
+  const handleBuyButtonClick = () => {
+    const phoneNumber = advertisementDescription?.user.phone;
+    const message = `Olá, tenho interesse no carro ${advertisementDescription?.model} anunciado no site.`; // mensagem para enviar ao vendedor
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   const { selectedCarDescriptionId } = useAuthContext();
   useEffect(() => {
-    async function getAdvertisementByIdService(id: string) {
+    async function getAdvertisementByIdService(id: any) {
+      console.log(id);
+      if (id === undefined) {
+        console.log("undefined");
+        navigate("/");
+      }
       try {
         return await Api.get(`advertisement/${id}`, {
           headers: {
             "Content-Type": "application/json",
           },
         }).then((res) => {
-          console.log(res.data, "entrou-description-THEN");
           setAdvertisementDescription(res.data);
           return;
         });
       } catch (error) {
-        console.log(error, "description");
+        // console.log(error, "description");
+        navigate("/");
         return;
       }
     }
-    getAdvertisementByIdService(selectedCarDescriptionId);
+    getAdvertisementByIdService(id);
   }, []);
 
   const getInitials = (fullName: string): string => {
@@ -69,6 +87,7 @@ const PageProductDescriptionComponent = () => {
       .join("");
     return initials;
   };
+
   return (
     <>
       <StyledPageProductDescriptionMobile>
@@ -76,7 +95,7 @@ const PageProductDescriptionComponent = () => {
           <figure>
             <img
               className="imageCenter"
-              src={advertisementDescription?.images[0].image}
+              src={advertisementDescription?.images[0]?.image}
               alt={`Foto de anuncio de carro, modelo ${advertisementDescription?.model}`}
             />
           </figure>
@@ -94,7 +113,9 @@ const PageProductDescriptionComponent = () => {
           <StyledText fontWeight={600} tag="p">
             R$ {advertisementDescription?.price}
           </StyledText>
-          <StyledButton buttonStyle="brand1">Comprar</StyledButton>
+          <StyledButton buttonStyle="brand1" onClick={handleBuyButtonClick}>
+            Comprar
+          </StyledButton>
         </div>
 
         <div className="containerDescriptionCar">
@@ -128,13 +149,24 @@ const PageProductDescriptionComponent = () => {
           <StyledText tag="h7">
             {advertisementDescription?.user.description}
           </StyledText>
-          <StyledButton buttonStyle="grey1">Ver todos anuncios</StyledButton>
+          <StyledButton
+            buttonStyle="grey1"
+            onClick={() => {
+              navigate(`/profile/:id`);
+            }}
+          >
+            Ver todos anuncios
+          </StyledButton>
         </div>
 
         <div className="containerCommentInformation">
           <div className="containerUserNewComment">
-            <span className="initialsOfNameInCircleNewComment">TA</span>
-            <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
+            <span className="initialsOfNameInCircleNewComment">
+              {getInitials(advertisementDescription?.user.name || "")}
+            </span>
+            <StyledTitle tag="span">
+              {advertisementDescription?.user.name}
+            </StyledTitle>
           </div>
 
           <Input
@@ -157,14 +189,16 @@ const PageProductDescriptionComponent = () => {
             <figure>
               <img
                 className="imageCenter"
-                src={advertisementDescription?.images[0].image}
+                src={advertisementDescription?.images[0]?.image}
               />
             </figure>
           </div>
           <div className="containerInformationsCar">
             <span>{advertisementDescription?.model}</span>
             <div className="containerSpecialText">
-              <span className="specialText">{advertisementsMock[0].year}</span>
+              <span className="specialText">
+                {advertisementDescription?.year}
+              </span>
               <span className="specialText">
                 {advertisementDescription?.mileage}KM
               </span>
@@ -172,7 +206,9 @@ const PageProductDescriptionComponent = () => {
             <StyledText fontWeight={600} tag="p">
               R$ {advertisementDescription?.price}
             </StyledText>
-            <StyledButton buttonStyle="brand1">Comprar</StyledButton>
+            <StyledButton buttonStyle="brand1" onClick={handleBuyButtonClick}>
+              Comprar
+            </StyledButton>
           </div>
 
           <div className="containerDescriptionCar">
@@ -184,7 +220,9 @@ const PageProductDescriptionComponent = () => {
 
           <div className="containerCommentInformation">
             <div className="containerUserNewComment">
-              <span className="initialsOfNameInCircleNewComment">TA</span>
+              <span className="initialsOfNameInCircleNewComment">
+                {getInitials(advertisementDescription?.user.name || "")}
+              </span>
               <StyledTitle tag="span">
                 {advertisementDescription?.user.name}
               </StyledTitle>
@@ -220,12 +258,23 @@ const PageProductDescriptionComponent = () => {
           </div>
 
           <div className="containerUserInformation">
-            <span className="initialsOfNameInCircle">TA</span>
-            <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
+            <span className="initialsOfNameInCircle">
+              {getInitials(advertisementDescription?.user.name || "")}
+            </span>
+            <StyledTitle tag="span">
+              {advertisementDescription?.user.name}
+            </StyledTitle>
             <StyledText tag="h7">
               {advertisementDescription?.user.description}
             </StyledText>
-            <StyledButton buttonStyle="grey1">Ver todos anuncios</StyledButton>
+            <StyledButton
+              buttonStyle="grey1"
+              onClick={() => {
+                navigate(`/profile/${advertisementDescription?.user?.id}`);
+              }}
+            >
+              Ver todos anuncios
+            </StyledButton>
           </div>
         </div>
       </StyledPageProductDescriptionDesktop>

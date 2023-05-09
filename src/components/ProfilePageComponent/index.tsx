@@ -1,14 +1,10 @@
 import { StyledCommomProfilePage, StyledProfilePage } from "./style";
-import { advertisementsMock, advertiserMock } from "../../services/mock";
-import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
-import Input from "../input";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { Api } from "../../services/api";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { object } from "zod";
+import { Params, useParams } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -70,9 +66,9 @@ const ProfilePageComponent = () => {
       .join("");
     return initials;
   };
-
+  const { id } = useParams<Params>();
   useEffect(() => {
-    async function dataCardListProfile(id: string) {
+    async function dataCardListProfile(id: any) {
       try {
         return await Api.get(`users/${id}`, {
           headers: {
@@ -87,7 +83,7 @@ const ProfilePageComponent = () => {
         return;
       }
     }
-    dataCardListProfile(selectedCarId);
+    dataCardListProfile(id);
   }, []);
 
   return selectedCarId === user?.id ? (
