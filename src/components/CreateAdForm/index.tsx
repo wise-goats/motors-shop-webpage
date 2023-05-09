@@ -33,7 +33,11 @@ interface IImage {
   image: string;
 }
 
-const CreateAdForm = () => {
+interface ICreateAdFormProps {
+  handleModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CreateAdForm = ({ handleModal }: ICreateAdFormProps) => {
   const [cars, setCars] = useState<ICar[]>([]);
   const [carsName, setCarsName] = useState<string[]>([]);
   const [carsYear, setCarsYear] = useState<string[]>([]);
@@ -108,10 +112,11 @@ const CreateAdForm = () => {
 
     await Api.post("advertisement", data)
       .then((res) => {
+        handleModal(false);
         toast.success("Anúncio criado com sucesso");
       })
       .catch((err) => {
-        toast.error(`${err.message}`);
+        toast.error(`${err.responce.data.message}`);
       });
   };
 
@@ -340,8 +345,15 @@ const CreateAdForm = () => {
           Adicionar campo para imagem da galeria
         </StyledButton>
         <div>
-          <StyledButton buttonStyle="negative">Cancelar</StyledButton>
-          <StyledButton buttonStyle="brand1">Criar anúncio</StyledButton>
+          <StyledButton
+            onClick={() => handleModal(false)}
+            buttonStyle="negative"
+          >
+            Cancelar
+          </StyledButton>
+          <StyledButton submitType buttonStyle="brand1">
+            Criar anúncio
+          </StyledButton>
         </div>
       </Form>
     </StyledForm>

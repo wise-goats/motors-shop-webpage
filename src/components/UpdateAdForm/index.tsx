@@ -35,6 +35,7 @@ interface IImage {
 
 interface IUpgradeAdProps {
   id: string;
+  handleModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface iAdvertisement {
@@ -51,7 +52,7 @@ interface iAdvertisement {
   isActive: boolean;
 }
 
-const UpdateAdForm = ({ id }: IUpgradeAdProps) => {
+const UpdateAdForm = ({ id, handleModal }: IUpgradeAdProps) => {
   const [advertisement, setAdvertisement] = useState<iAdvertisement>();
 
   const [cars, setCars] = useState<IFormCar[]>([]);
@@ -128,10 +129,9 @@ const UpdateAdForm = ({ id }: IUpgradeAdProps) => {
       isActive: isActive,
     };
 
-    console.log(data, `advertisement/${id}`);
-
     await Api.patch(`advertisement/${id}`, data)
       .then((res) => {
+        handleModal(false);
         toast.success("Anúncio editado com sucesso");
       })
       .catch((err) => {
@@ -141,7 +141,10 @@ const UpdateAdForm = ({ id }: IUpgradeAdProps) => {
 
   const deleteAdvertisement = async () => {
     await Api.delete(`advertisement/${id}`)
-      .then((res) => toast.success("Anúncio deletado com sucesso"))
+      .then((res) => {
+        handleModal(false);
+        toast.success("Anúncio deletado com sucesso");
+      })
       .catch((err) => {
         console.log(err);
         toast.error("Falha ao deletar anúncio");

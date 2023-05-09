@@ -15,10 +15,5 @@ export default () => (
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/description/:id" element={<ProductDescription />} />
     <Route path="/profile/:id" element={<ProfilePage />} />
-    <Route path="/profileadm" element={<ProfileAdminPage />} />
-    <Route
-      path="/teste"
-      element={<UpdateAdForm id="6d6b2dc2-8f2f-4908-835b-ce6dc19e73a0" />}
-    />
   </Routes>
 );

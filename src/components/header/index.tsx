@@ -40,7 +40,7 @@ export const Header = ({ children }: IHeaderProps) => {
         </Modal>
       )}
 
-      <Link to={"/teste"}>
+      <Link to={"/"}>
         <img src={logo} alt="logo" />
       </Link>
       <div
@@ -99,7 +99,7 @@ export const Header = ({ children }: IHeaderProps) => {
               </StyledText>
               {user.isSeller && (
                 <StyledText
-                  onClick={() => navigate("/profileadm")}
+                  onClick={() => navigate(`/profile/${user.id}`)}
                   tag="p"
                   color="--grey-2"
                 >
