@@ -229,7 +229,7 @@ export const RegisterPage = () => {
             </StyledText>
           </StyledText>
 
-          <StyledButton buttonStyle="brand1">Finalizar cadastro</StyledButton>
+          <StyledButton buttonStyle="brand1" submitType={true}>Finalizar cadastro</StyledButton>
         </Form>
       </StyledMain>
     </>
