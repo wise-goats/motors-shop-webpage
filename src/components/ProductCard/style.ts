@@ -40,6 +40,8 @@ const StyledProductCard = styled.li`
 
   .advertiserSection {
     display: flex;
+    flex-direction: row;
+
     gap: 10px;
 
     .advertiserName {
@@ -70,6 +72,18 @@ const StyledProductCard = styled.li`
         color: var(--brand-1);
       }
     }
+  }
+  .initialsOfNameInCircle {
+    background-color: #fffe1f;
+    color: var(--white-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+
+    border-radius: 100%;
+    font-size: 26px;
   }
 `;
 
