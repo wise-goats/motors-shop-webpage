@@ -14,13 +14,14 @@ import { IComment, iCommentRegister } from "../../interfaces";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StyledTextInput } from "../../styles/input";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
 
 interface userCardInformations {
   name: string;
   id: string;
   description: string;
+  phone: string;
 }
 interface image {
   image: string;
@@ -47,6 +48,7 @@ const PageProductDescriptionComponent = () => {
   // const [comments, setComments] = useState<IComment[]>([]);
 
   const { user } = useAuthContext();
+  const navigate = useNavigate();
   const {
     advertisementDescription,
     getAdvertiseComments,
@@ -63,6 +65,15 @@ const PageProductDescriptionComponent = () => {
     reset,
     formState: { errors },
   } = useForm<iCommentRegister>({ resolver: zodResolver(newCommentSchema) });
+
+  const handleBuyButtonClick = () => {
+    const phoneNumber = advertisementDescription?.user.phone;
+    const message = `Olá, tenho interesse no carro ${advertisementDescription?.model} anunciado no site.`; // mensagem para enviar ao vendedor
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   useEffect(() => {
     async function getInfos() {
@@ -120,7 +131,7 @@ const PageProductDescriptionComponent = () => {
                 </StyledText>
                 <StyledButton
                   buttonStyle="brand1"
-                  onClick={() => console.log(advertisementDescription)}
+                  onClick={handleBuyButtonClick}
                 >
                   Comprar
                 </StyledButton>
@@ -164,7 +175,13 @@ const PageProductDescriptionComponent = () => {
                 <StyledText tag="h7">
                   {advertisementDescription?.user.description}
                 </StyledText>
-                <StyledButton buttonStyle="grey1" buttonSize="big">
+                <StyledButton
+                  buttonStyle="grey1"
+                  buttonSize="big"
+                  onClick={() => {
+                    navigate(`/profile/${advertisementDescription?.user?.id}`);
+                  }}
+                >
                   Ver todos anuncios
                 </StyledButton>
               </div>

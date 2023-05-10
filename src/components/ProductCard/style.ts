@@ -12,6 +12,7 @@ const StyledProductCard = styled.li`
   height: 356px;
 
   background-color: var(--grey-8);
+  cursor: pointer;
 
   .productInfoMain {
     display: flex;
