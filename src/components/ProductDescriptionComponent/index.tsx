@@ -44,7 +44,7 @@ const PageProductDescriptionComponent = () => {
   const [advertisementDescription, setAdvertisementDescription] =
     useState<Advertisement>();
   const [comments, setComments] = useState<IComment[]>([]);
-  const { selectedCarDescriptionId, registerComment } = useAuthContext();
+  const { selectedCarDescriptionId, registerComment, user } = useAuthContext();
   const { id } = useParams();
   const {
     register,
@@ -127,7 +127,7 @@ const PageProductDescriptionComponent = () => {
               </StyledText>
               <StyledButton
                 buttonStyle="brand1"
-                onClick={() => console.log(comments)}
+                onClick={() => console.log(advertisementDescription)}
               >
                 Comprar
               </StyledButton>
@@ -196,8 +196,10 @@ const PageProductDescriptionComponent = () => {
         </div>
         <div className="containerCommentInformation">
           <div className="containerUserNewComment">
-            <span className="initialsOfNameInCircleNewComment">TA</span>
-            <StyledTitle tag="span">{advertiserMock.name}</StyledTitle>
+            <span className="initialsOfNameInCircleNewComment">
+              {user && getInitials(user.name)}
+            </span>
+            <StyledTitle tag="span">{user?.name}</StyledTitle>
           </div>
 
           <Form onSubmit={handleSubmit(newComment)} className="commentForm">

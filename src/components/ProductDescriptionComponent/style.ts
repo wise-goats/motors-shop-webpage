@@ -52,7 +52,6 @@ export const StyledPageProductDescription = styled.div`
     background-color: var(--grey-10);
     border-radius: 4px;
     width: 90%;
-    height: 355px;
     padding: 25px 20px;
 
     & .commentCard {
