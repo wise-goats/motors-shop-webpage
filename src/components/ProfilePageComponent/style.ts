@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const StyledProfilePage = styled.div`
   position: absolute;
-  z-index: 555;
   display: flex;
   flex-direction: column;
   align-items: center;

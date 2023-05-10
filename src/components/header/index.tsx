@@ -99,7 +99,7 @@ export const Header = ({ children }: IHeaderProps) => {
               </StyledText>
               {user.isSeller && (
                 <StyledText
-                  onClick={() => navigate("/profileadm")}
+                  onClick={() => navigate(`/profile/${user.id}`)}
                   tag="p"
                   color="--grey-2"
                 >

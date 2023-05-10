@@ -10,7 +10,7 @@ export const StyledModalContainer = styled.div`
   height: 100%;
 
   margin: 0 auto;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
@@ -19,7 +19,6 @@ export const StyledModalContainer = styled.div`
 
   .filters-modal {
     position: fixed;
-    top: 70px;
   }
 `;
 export const StyledModalBody = styled.div`
@@ -37,6 +36,8 @@ export const StyledModalBody = styled.div`
   overflow-y: auto;
 
   margin-bottom: 80px;
+
+  margin-top: 70px;
 `;
 
 export const SyledModalHeader = styled.header`
