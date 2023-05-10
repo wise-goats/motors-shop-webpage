@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import { Api } from "../../services/api";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { object } from "zod";
+import Modal from "../Modal";
+import CreateAdForm from "../CreateAdForm";
+import UpdateAdForm from "../UpdateAdForm";
 
 interface userCardInformations {
   name: string;
@@ -61,6 +64,9 @@ interface User {
 const ProfilePageComponent = () => {
   const { selectedCarId, user } = useAuthContext();
   const [carUserCommom, setCarUserCommom] = useState<User>();
+  const [modalCreate, setModalCreate] = useState<boolean>(false);
+  const [modalUpdate, setModalUpdate] = useState<boolean>(false);
+  const [carId, setCarId] = useState<string>("");
 
   const getInitials = (fullName: string): string => {
     const names = fullName.split(" ");
@@ -92,6 +98,14 @@ const ProfilePageComponent = () => {
 
   return selectedCarId === user?.id ? (
     <>
+      {modalCreate && (
+        <Modal
+          title="Criar anuncio"
+          handleModal={() => setModalCreate(!modalCreate)}
+        >
+          <CreateAdForm handleModal={setModalCreate} />
+        </Modal>
+      )}
       <StyledProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
@@ -102,7 +116,10 @@ const ProfilePageComponent = () => {
             </div>
             <StyledText tag="h7">{carUserCommom?.description}</StyledText>
 
-            <StyledButton buttonStyle="outlineBrand">
+            <StyledButton
+              onClick={() => setModalCreate(!modalCreate)}
+              buttonStyle="outlineBrand"
+            >
               Criar anuncio
             </StyledButton>
           </div>
@@ -111,6 +128,14 @@ const ProfilePageComponent = () => {
         <ul>
           {carUserCommom?.advertisement.map((car) => (
             <li>
+              {modalUpdate && (
+                <Modal
+                  title="Editar anúncio"
+                  handleModal={() => setModalUpdate(!modalUpdate)}
+                >
+                  <UpdateAdForm handleModal={setModalUpdate} id={carId} />
+                </Modal>
+              )}
               <figure>
                 <img
                   className="imgCarCard"
@@ -131,7 +156,15 @@ const ProfilePageComponent = () => {
                 </StyledText>
               </div>
               <div className="containerBtns">
-                <StyledButton buttonStyle="outline1">Editar</StyledButton>
+                <StyledButton
+                  onClick={() => {
+                    setCarId(car.id);
+                    setModalUpdate(!modalUpdate);
+                  }}
+                  buttonStyle="outline1"
+                >
+                  Editar
+                </StyledButton>
                 <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
               </div>
             </li>
