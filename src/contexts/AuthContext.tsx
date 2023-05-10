@@ -88,6 +88,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
       const res = await Api.patch("/users", data);
       const profile = await Api.get("/profile");
       setUser(profile.data);
+      console.log(res.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
