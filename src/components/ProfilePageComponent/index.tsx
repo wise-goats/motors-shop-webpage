@@ -7,7 +7,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import Modal from "../Modal";
 import CreateAdForm from "../CreateAdForm";
 import UpdateAdForm from "../UpdateAdForm";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -64,6 +64,7 @@ const ProfilePageComponent = () => {
   const [modalUpdate, setModalUpdate] = useState<boolean>(false);
   const [carId, setCarId] = useState<string>("");
   const { id } = useParams();
+  const navigate = useNavigate();
   const getInitials = (fullName: string): string => {
     const names = fullName.split(" ");
     const initials = names
@@ -126,7 +127,7 @@ const ProfilePageComponent = () => {
 
         <ul>
           {carUserCommom?.advertisement.map((car) => (
-            <li key={car.id}>
+            <li key={car.id} onClick={() => navigate(`/description/${car.id}`)}>
               {modalUpdate && (
                 <Modal
                   title="Editar anúncio"

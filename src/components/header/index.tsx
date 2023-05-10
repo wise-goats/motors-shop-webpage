@@ -103,7 +103,7 @@ export const Header = ({ children }: IHeaderProps) => {
                   tag="p"
                   color="--grey-2"
                 >
-                  Meus Anúcio
+                  Meus Anúncios
                 </StyledText>
               )}
               <StyledText onClick={() => exit()} tag="p" color="--grey-2">
