@@ -102,6 +102,7 @@ export interface iAdvertisement {
 export interface iImage {
   image: string;
   id: string;
+  images: string[];
 }
 
 export interface iUserProfile {

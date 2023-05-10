@@ -39,6 +39,7 @@ const FiltersComponent = ({
   const [maxKm, setMaxKm] = useState<number>(0);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(0);
+
   return (
     <section className={hide ? "filters hide" : "filters"}>
       <div className="filter-section">
@@ -49,17 +50,16 @@ const FiltersComponent = ({
           {filters.brand?.map((e) => {
             return (
               <StyledText
-                key={e}
                 onClick={async (ev) => {
                   activeFilters.brand === e
-                    ? ((activeFilters.brand = undefined), setFilteredModels([]))
-                    : (setActiveFilters({ ...activeFilters, brand: e }),
-                      setFilteredModels(
-                        advertisements
-                          .filter((ad) => ad.brand == e)
-                          .map((c) => c.model)
-                      ),
-                      console.log(filteredModels));
+                    ? (activeFilters.brand = undefined)
+                    : setActiveFilters({ ...activeFilters, brand: e });
+
+                  setFilteredModels(
+                    advertisements
+                      .filter((ad) => ad.brand == e)
+                      .map((c) => c.model)
+                  );
                 }}
                 fontWeight={500}
                 className={activeFilters.brand === e ? "selected" : ""}

@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         try {
           const res = await Api.get("/profile");
           setUser(res.data);
-          toast.success(`Bem vindo(a) ${res.data.name}`, { autoClose: 2 });
+          toast.success(`Bem vindo(a) ${res.data.name}`);
           // navigate("/");
         } catch (error) {
           if (axios.isAxiosError(error)) {
