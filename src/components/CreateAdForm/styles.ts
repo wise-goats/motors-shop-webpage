@@ -46,7 +46,6 @@ const StyledForm = styled.div`
   textarea {
     width: 483px;
     min-width: 110px;
-    max-width: 315px px;
     height: 61px;
     border: 1.5px solid var(--grey-7);
     border-radius: 4px;

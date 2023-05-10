@@ -1,6 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
-import { iUser, iUserProfile, iUserRegister, iUserUpdate } from "../interfaces";
+import {
+  iCommentRegister,
+  iUser,
+  iUserProfile,
+  iUserRegister,
+  iUserUpdate,
+} from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -18,6 +24,7 @@ export interface iAuthContext {
   user: iUserProfile | null;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
+  registerComment: (data: iCommentRegister, advertiseId: string) => void;
   exit: () => void;
   selectedCarId: string;
   setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
@@ -41,7 +48,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         try {
           const res = await Api.get("/profile");
           setUser(res.data);
-          toast.success(`Bem vindo(a) ${res.data.name}`, { autoClose: 2 });
+          toast.success(`Bem vindo(a) ${res.data.name}`);
           // navigate("/");
         } catch (error) {
           if (axios.isAxiosError(error)) {
@@ -77,6 +84,25 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
       const res = await Api.patch("/users", data);
       const profile = await Api.get("/profile");
       setUser(profile.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.message);
+      }
+    }
+  };
+
+  const registerComment = async (
+    data: iCommentRegister,
+    advertiseId: string
+  ) => {
+    try {
+      if (user == null) {
+        navigate("/login");
+      }
+      const res = await Api.post(`/advertisement/${advertiseId}/comment`, data);
+      console.log(res);
+      return res;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -126,6 +152,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         updateUser,
         selectedCarDescriptionId,
         setSelectedCarDescriptionId,
+        registerComment,
       }}
     >
       {children}

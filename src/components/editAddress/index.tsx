@@ -129,7 +129,9 @@ const EditAddressComponent = ({ setHandleModal }: IEditAddressProps) => {
           >
             Cancelar
           </StyledButton>
-          <StyledButton buttonStyle="brand1">Salvar alterações</StyledButton>
+          <StyledButton buttonStyle="brand1" submitType={true}>
+            Salvar alterações
+          </StyledButton>
         </div>
       </Form>
     </StyledForm>

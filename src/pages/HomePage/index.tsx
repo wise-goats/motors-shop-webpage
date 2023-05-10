@@ -39,6 +39,47 @@ export interface iActiveFilter {
 }
 
 export default () => {
+  useEffect(() => {
+    async function getAds() {
+      try {
+        const res = await Api.get("/advertisement");
+        setAdvertisements(res.data);
+        let ads: iAdvertisement[] = res.data;
+        let filter: iFilter = {
+          brand: [],
+          model: [],
+          color: [],
+          year: [],
+          fuel: [],
+          mileage: { min: 0, max: 0 },
+          price: { min: 0, max: 0 },
+        };
+
+        ads.forEach((car) => {
+          if (!filter.brand?.includes(car.brand)) {
+            filter.brand = [...filter.brand, car.brand];
+          }
+          if (!filter.model?.includes(car.model)) {
+            filter.model = [...filter.model, car.model];
+          }
+          if (!filter.color?.includes(car.color)) {
+            filter.color = [...filter.color, car.color];
+          }
+          if (!filter.year?.includes(car.year)) {
+            filter.year = [...filter.year, car.year];
+          }
+          if (!filter.fuel?.includes(car.fuel)) {
+            filter.fuel = [...filter.fuel, car.fuel];
+          }
+        });
+        setFilters(filter);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAds();
+  }, []);
+
   const { user } = useAuthContext();
   const [advertisements, setAdvertisements] = useState<iAdvertisement[]>([]);
   const [isFilterModal, setIsFilterModal] = useState<boolean>(false);
