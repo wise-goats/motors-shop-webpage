@@ -8,6 +8,7 @@ import ProfileAdminPage from "../pages/ProfileAdminPage";
 import UpdateAdForm from "../components/UpdateAdForm";
 import UserUpdateForm from "../components/UserUpdateForm";
 import CreateAdForm from "../components/CreateAdForm";
+import ResetPasswordPage from "../pages/ResetPassword";
 
 export default () => (
   <Routes>
@@ -19,6 +20,7 @@ export default () => (
     <Route path="/profile/:id" element={<ProfilePage />} />
     <Route path="/description" element={<ProductDescription />} />
     <Route path="/profile" element={<ProfilePage />} />
+    <Route path="/resetPassword/:id" element={<ResetPasswordPage />} />
     {/* <Route path="/update" element={<CreateAdForm />} /> */}
   </Routes>
 );

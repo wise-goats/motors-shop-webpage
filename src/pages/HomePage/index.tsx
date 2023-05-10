@@ -16,6 +16,7 @@ import { iAdvertisement } from "../../interfaces";
 import FiltersComponent from "./FiltersComponent";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 export interface iFilter {
   brand: string[];
@@ -90,6 +91,7 @@ export default () => {
   const [activeFilters, setActiveFilters] = useState<iActiveFilter>(
     {} as iActiveFilter
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getAds() {
