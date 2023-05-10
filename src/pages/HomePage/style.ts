@@ -15,6 +15,7 @@ export const StyledHomePage = styled.div`
       flex-direction: row-reverse;
       align-items: initial;
       padding-top: 16px;
+      justify-content: space-around;
     }
 
     .flex {

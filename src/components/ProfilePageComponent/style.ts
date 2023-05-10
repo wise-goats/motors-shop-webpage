@@ -29,8 +29,13 @@ export const StyledProfilePage = styled.div`
     }
     justify-content: center;
     width: 90%;
+    max-width: 1240px;
     padding: 20px;
     border-radius: 4px;
+
+    @media (max-width: 1240px) {
+      justify-content: flex-start;
+    }
   }
 
   .specialText {

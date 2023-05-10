@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StyledTextInput } from "../../styles/input";
 import { useParams } from "react-router-dom";
+import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
 
 interface userCardInformations {
   name: string;
@@ -25,7 +26,7 @@ interface image {
   image: string;
   id: string;
 }
-interface Advertisement {
+export interface Advertisement {
   id: string;
   brand: string;
   model: string;
@@ -41,10 +42,20 @@ interface Advertisement {
   user: userCardInformations;
 }
 const PageProductDescriptionComponent = () => {
-  const [advertisementDescription, setAdvertisementDescription] =
-    useState<Advertisement>();
-  const [comments, setComments] = useState<IComment[]>([]);
-  const { selectedCarDescriptionId, registerComment, user } = useAuthContext();
+  // const [advertisementDescription, setAdvertisementDescription] =
+  //   useState<Advertisement>();
+  // const [comments, setComments] = useState<IComment[]>([]);
+
+  const { user } = useAuthContext();
+  const {
+    advertisementDescription,
+    getAdvertiseComments,
+    getAdvertisementByIdService,
+    registerComment,
+    setAdvertisementDescription,
+    comments,
+    setComments,
+  } = useAdvertisementContext();
   const { id } = useParams();
   const {
     register,
@@ -52,35 +63,13 @@ const PageProductDescriptionComponent = () => {
     reset,
     formState: { errors },
   } = useForm<iCommentRegister>({ resolver: zodResolver(newCommentSchema) });
-  console.log(errors);
 
   useEffect(() => {
-    async function getAdvertisementByIdService() {
-      try {
-        return await Api.get(`advertisement/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => {
-          setAdvertisementDescription(res.data);
-          return;
-        });
-      } catch (error) {
-        console.log(error, "description");
-      }
+    async function getInfos() {
+      await getAdvertisementByIdService(id!);
+      await getAdvertiseComments(id!);
     }
-    async function getAdvertiseComments() {
-      try {
-        return await Api.get(`advertisement/${id}/comment`).then((res) => {
-          setComments(res.data[0].comments);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getAdvertisementByIdService();
-    getAdvertiseComments();
+    getInfos();
   }, []);
 
   const getInitials = (fullName: string): string => {
@@ -98,127 +87,132 @@ const PageProductDescriptionComponent = () => {
   };
   return (
     <>
-      <StyledPageProductDescription>
-        <div className="announcerContainer">
-          <div className="leftContainer">
-            <div className="containerImage">
-              <figure>
-                <img
-                  className="imageCenter"
-                  src={advertisementDescription?.images[0].image}
-                  alt={`Foto de anuncio de carro, modelo ${advertisementDescription?.model}`}
-                />
-              </figure>
-            </div>
-            <div className="containerInformationsCar">
-              <StyledTitle tag="h6" fontWeight={600}>
-                {advertisementDescription?.model}
-              </StyledTitle>
-              <div className="containerSpecialText">
-                <span className="specialText">
-                  {advertisementDescription?.year}
-                </span>
-                <span className="specialText">
-                  {advertisementDescription?.mileage}KM
-                </span>
+      {advertisementDescription.brand && (
+        <StyledPageProductDescription>
+          <div className="announcerContainer">
+            <div className="leftContainer">
+              <div className="containerImage">
+                <figure>
+                  <img
+                    className="imageCenter"
+                    src={
+                      advertisementDescription?.images[0]?.image &&
+                      advertisementDescription?.images[0]?.image
+                    }
+                    alt={`Foto de anuncio de carro, modelo ${advertisementDescription?.model}`}
+                  />
+                </figure>
               </div>
-              <StyledText fontWeight={600} tag="p">
-                R$ {advertisementDescription?.price}
-              </StyledText>
-              <StyledButton
-                buttonStyle="brand1"
-                onClick={() => console.log(advertisementDescription)}
-              >
-                Comprar
-              </StyledButton>
-            </div>
-
-            <div className="containerDescriptionCar">
-              <StyledTitle tag="h6" fontWeight={600}>
-                Descrição
-              </StyledTitle>
-              <StyledText tag="h7">
-                {advertisementDescription?.description}
-              </StyledText>
-            </div>
-          </div>
-          <div className="rightContainer">
-            <div className="containerImagesCar">
-              <StyledTitle tag="h6" fontWeight={600}>
-                Fotos
-              </StyledTitle>
-
-              <ul>
-                {advertisementDescription?.images.map((image, index) => (
-                  <li key={index}>
-                    <img src={`${image.image}`} alt="" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="containerUserInformation">
-              <span className="initialsOfNameInCircle">
-                {getInitials(
-                  advertisementDescription
-                    ? advertisementDescription.user.name
-                    : ""
-                )}
-              </span>
-              <StyledTitle tag="span">
-                {advertisementDescription?.user.name}
-              </StyledTitle>
-              <StyledText tag="h7">
-                {advertisementDescription?.user.description}
-              </StyledText>
-              <StyledButton buttonStyle="grey1" buttonSize="big">
-                Ver todos anuncios
-              </StyledButton>
-            </div>
-          </div>
-        </div>
-        <div className="commentSection">
-          <StyledTitle tag="h6" fontWeight={600}>
-            Comentários
-          </StyledTitle>
-          {comments &&
-            comments.map((c) => (
-              <div key={c.id} className="commentCard">
-                <div className="commentHeader">
-                  <span className="initialsOfNameInCircle">
-                    {getInitials(c.user.name)}
+              <div className="containerInformationsCar">
+                <StyledTitle tag="h6" fontWeight={600}>
+                  {advertisementDescription?.model}
+                </StyledTitle>
+                <div className="containerSpecialText">
+                  <span className="specialText">
+                    {advertisementDescription?.year}
                   </span>
-                  <StyledText>{c.user.name}</StyledText>
+                  <span className="specialText">
+                    {advertisementDescription?.mileage}KM
+                  </span>
                 </div>
-                <StyledText fontSize={14}>{c.description}</StyledText>
+                <StyledText fontWeight={600} tag="p">
+                  R$ {advertisementDescription?.price}
+                </StyledText>
+                <StyledButton
+                  buttonStyle="brand1"
+                  onClick={() => console.log(advertisementDescription)}
+                >
+                  Comprar
+                </StyledButton>
               </div>
-            ))}
-        </div>
-        <div className="containerCommentInformation">
-          <div className="containerUserNewComment">
-            <span className="initialsOfNameInCircleNewComment">
-              {user && getInitials(user.name)}
-            </span>
-            <StyledTitle tag="span">{user?.name}</StyledTitle>
-          </div>
 
-          <Form onSubmit={handleSubmit(newComment)} className="commentForm">
-            <StyledTextInput
-              {...register("description")}
-              type="textarea"
-              placeholder="Digite algo..."
-            />
-            <StyledButton buttonStyle="brand1" submitType={true}>
-              Comentar
-            </StyledButton>
-          </Form>
-          <div className="automaticComment">
-            <button>Gostei muito!</button>
-            <button>Incrível!</button>
-            <button>Recomendarei para meus amigos!</button>
+              <div className="containerDescriptionCar">
+                <StyledTitle tag="h6" fontWeight={600}>
+                  Descrição
+                </StyledTitle>
+                <StyledText tag="h7">
+                  {advertisementDescription?.description}
+                </StyledText>
+              </div>
+            </div>
+            <div className="rightContainer">
+              <div className="containerImagesCar">
+                <StyledTitle tag="h6" fontWeight={600}>
+                  Fotos
+                </StyledTitle>
+
+                <ul>
+                  {advertisementDescription?.images.map((image, index) => (
+                    <li key={index}>
+                      <img src={`${image.image}`} alt="" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="containerUserInformation">
+                <span className="initialsOfNameInCircle">
+                  {getInitials(
+                    advertisementDescription
+                      ? advertisementDescription.user.name
+                      : ""
+                  )}
+                </span>
+                <StyledTitle tag="span">
+                  {advertisementDescription?.user.name}
+                </StyledTitle>
+                <StyledText tag="h7">
+                  {advertisementDescription?.user.description}
+                </StyledText>
+                <StyledButton buttonStyle="grey1" buttonSize="big">
+                  Ver todos anuncios
+                </StyledButton>
+              </div>
+            </div>
           </div>
-        </div>
-      </StyledPageProductDescription>
+          <div className="commentSection">
+            <StyledTitle tag="h6" fontWeight={600}>
+              Comentários
+            </StyledTitle>
+            {comments &&
+              comments.map((c) => (
+                <div key={c.id} className="commentCard">
+                  <div className="commentHeader">
+                    <span className="initialsOfNameInCircle">
+                      {getInitials(c.user.name)}
+                    </span>
+                    <StyledText>{c.user.name}</StyledText>
+                  </div>
+                  <StyledText fontSize={14}>{c.description}</StyledText>
+                </div>
+              ))}
+          </div>
+          <div className="containerCommentInformation">
+            <div className="containerUserNewComment">
+              <span className="initialsOfNameInCircleNewComment">
+                {user && getInitials(user.name)}
+              </span>
+              <StyledTitle tag="span">{user?.name}</StyledTitle>
+            </div>
+
+            <Form onSubmit={handleSubmit(newComment)} className="commentForm">
+              <StyledTextInput
+                {...register("description")}
+                type="textarea"
+                placeholder="Digite algo..."
+              />
+              <StyledButton buttonStyle="brand1" submitType={true}>
+                Comentar
+              </StyledButton>
+            </Form>
+            <div className="automaticComment">
+              <button>Gostei muito!</button>
+              <button>Incrível!</button>
+              <button>Recomendarei para meus amigos!</button>
+            </div>
+          </div>
+        </StyledPageProductDescription>
+      )}
     </>
   );
 };

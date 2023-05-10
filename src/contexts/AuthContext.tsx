@@ -24,7 +24,7 @@ export interface iAuthContext {
   user: iUserProfile | null;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
-  registerComment: (data: iCommentRegister, advertiseId: string) => void;
+
   exit: () => void;
   selectedCarId: string;
   setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
@@ -92,25 +92,6 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
     }
   };
 
-  const registerComment = async (
-    data: iCommentRegister,
-    advertiseId: string
-  ) => {
-    try {
-      if (user == null) {
-        navigate("/login");
-      }
-      const res = await Api.post(`/advertisement/${advertiseId}/comment`, data);
-      console.log(res);
-      return res;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
-        toast.error(error.response?.data.message);
-      }
-    }
-  };
-
   const registerUser = async (data: iUserRegister) => {
     typeof data.addresses.number === "string" &&
       parseInt(data.addresses.number);
@@ -152,7 +133,6 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         updateUser,
         selectedCarDescriptionId,
         setSelectedCarDescriptionId,
-        registerComment,
       }}
     >
       {children}
