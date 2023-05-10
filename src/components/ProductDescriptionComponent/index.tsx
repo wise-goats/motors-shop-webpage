@@ -17,6 +17,7 @@ import { StyledTextInput } from "../../styles/input";
 import { useParams } from "react-router-dom";
 import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
 import Modal from "../Modal";
+import { Link } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -179,9 +180,12 @@ const PageProductDescriptionComponent = () => {
                 <StyledText tag="h7">
                   {advertisementDescription?.user.description}
                 </StyledText>
-                <StyledButton buttonStyle="grey1" buttonSize="big">
-                  Ver todos anuncios
-                </StyledButton>
+                <Link
+                  to={`/profile/${advertisementDescription.user.id}`}
+                  className="link_profile"
+                >
+                  Ver todos os anuncios
+                </Link>
               </div>
             </div>
           </div>

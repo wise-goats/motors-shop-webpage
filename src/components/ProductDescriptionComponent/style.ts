@@ -243,4 +243,27 @@ export const StyledPageProductDescription = styled.div`
       }
     }
   }
+
+  .link_profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 28px;
+    gap: 10px;
+    border: 1.5px solid transparent;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    width: 279px;
+    height: 48px;
+    background-color: var(--grey-0);
+    color: var(--white-fixed);
+
+    &&:hover {
+      background-color: var(--grey-1);
+      border-color: var(--grey-1);
+    }
+  }
 `;
