@@ -50,6 +50,7 @@ const FiltersComponent = ({
           {filters.brand?.map((e) => {
             return (
               <StyledText
+                key={e}
                 onClick={async (ev) => {
                   activeFilters.brand === e
                     ? (activeFilters.brand = undefined)

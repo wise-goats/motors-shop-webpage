@@ -1,17 +1,26 @@
 import styled from "styled-components";
 
 export const StyledProfilePage = styled.div`
-  position: absolute;
+  height: 100vh;
+  min-width: 100vw;
+  overflow-x: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   padding: 20px 0 0 0;
-  background-color: transparent;
+  background: linear-gradient(
+    to bottom,
+    var(--brand-1) 0,
+    var(--brand-1) 25%,
+    var(--grey-7) 25%,
+    var(--grey-7) 100vh
+  );
 
   .containerInformationsUser {
     background-color: var(--grey-10);
     display: flex;
+    height: 430px;
     .containerSecundary {
       display: flex;
       flex-direction: column;
@@ -20,7 +29,6 @@ export const StyledProfilePage = styled.div`
     }
     justify-content: center;
     width: 90%;
-    min-height: 65vh;
     padding: 20px;
     border-radius: 4px;
   }
@@ -56,9 +64,15 @@ export const StyledProfilePage = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    max-width: 100vw;
+    width: 90%;
+    gap: 24px;
     overflow-y: hidden;
-    gap: 10px;
+    padding-bottom: 24px;
+
+    @media (min-width: 1024px) {
+      flex-wrap: wrap;
+      overflow-y: initial;
+    }
   }
 
   li {
@@ -66,15 +80,34 @@ export const StyledProfilePage = styled.div`
     flex-direction: column;
     padding: 20px;
     gap: 20px;
-    width: 262px;
+    width: 312px;
+    max-width: 80%;
+    min-height: 356px;
+    background-color: var(--grey-7);
+
+    @media (min-width: 1024px) {
+      max-width: 24%;
+    }
+
     figure {
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: var(--grey-7);
+      position: relative;
+      .statusCar {
+        background-color: var(--brand-1);
+        color: var(--white-fixed);
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        padding: 5px;
+        font-size: 14px;
 
+        /* top: 5px; */
+      }
       .imgCarCard {
-        width: 262px;
+        width: 100%;
         height: 150.28px;
       }
     }
@@ -94,151 +127,6 @@ export const StyledProfilePage = styled.div`
       gap: 20px;
     }
   }
-  @media only screen and (min-width: 600px) {
-    button {
-      /* max-width: 50%; */
-    }
-    .containerInformationsUser {
-      max-height: 20vh;
-    }
-    .containerInformationsUser {
-      width: 80%;
-    }
-    .containerCarInformations {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    ul {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      max-width: 100vw;
-      overflow-y: unset;
-      flex-wrap: wrap;
-      gap: 5%;
-    }
-    li {
-      width: 21.2%;
-    }
-
-    figure {
-      .imgCarCard {
-        max-width: 100%;
-        /* height: 150.28px; */
-      }
-    }
-  }
-`;
-
-export const StyledCommomProfilePage = styled.div`
-  position: absolute;
-  z-index: 555;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 0 0 0;
-  background-color: transparent;
-
-  .containerInformationsUser {
-    background-color: var(--grey-10);
-    display: flex;
-
-    .containerSecundary {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      gap: 20px;
-    }
-    justify-content: center;
-    width: 90%;
-    min-height: 65vh;
-    padding: 20px;
-    border-radius: 4px;
-  }
-
-  .specialText {
-    padding: 8px;
-    background-color: var(--brand-4);
-    color: var(--brand-1);
-  }
-
-  .specialTextCard {
-    padding: 8px;
-    background-color: var(--brand-4);
-    color: var(--brand-1);
-  }
-  .imageCicleName {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--brand-4);
-    background-color: blue;
-    width: 90px;
-    height: 90px;
-    border-radius: 100%;
-  }
-  .containerName {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-  }
-  ul {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    max-width: 100vw;
-    overflow-y: hidden;
-    /* background-color: red; */
-    gap: 10px;
-  }
-
-  li {
-    display: flex;
-    /* height: 300px; */
-    flex-direction: column;
-    /* min-width: 312px; */
-    /* width: 100%; */
-    padding: 20px;
-    gap: 20px;
-    figure {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--grey-7);
-      position: relative;
-      .statusCar {
-        background-color: var(--brand-1);
-        color: var(--white-fixed);
-        position: absolute;
-        top: 7px;
-        left: 7px;
-        padding: 5px;
-        font-size: 14px;
-
-        /* top: 5px; */
-      }
-
-      .imgCarCard {
-        width: 262px;
-        max-width: 90%;
-        height: 150.28px;
-      }
-    }
-
-    .containerCarInformations {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      div {
-        display: flex;
-        flex-direction: row;
-      }
-    }
-  }
 
   .cicleCardSeller {
     text-align: center;
@@ -253,27 +141,5 @@ export const StyledCommomProfilePage = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
-  }
-  @media only screen and (min-width: 600px) {
-    .containerInformationsUser {
-      max-height: 20vh;
-    }
-    .containerInformationsUser {
-      width: 80%;
-    }
-
-    ul {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      max-width: 100vw;
-      overflow-y: unset;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    li {
-      width: 22%;
-    }
   }
 `;
