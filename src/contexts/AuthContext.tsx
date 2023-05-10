@@ -31,6 +31,8 @@ export interface iAuthContext {
   updateUser: (data: iUserUpdate) => void;
   selectedCarDescriptionId: string;
   setSelectedCarDescriptionId: React.Dispatch<React.SetStateAction<string>>;
+  handleModalResetPassword: boolean;
+  setHandleModalResetPassword: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
@@ -39,6 +41,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
   const [selectedCarId, setSelectedCarId] = useState("");
   const [selectedCarDescriptionId, setSelectedCarDescriptionId] = useState("");
   const [user, setUser] = useState<iUserProfile | null>(null);
+  const [handleModalResetPassword, setHandleModalResetPassword] =
+    useState<boolean>(false);
   const navigate = useNavigate();
   useEffect(() => {
     async function clientAutoLogin() {
@@ -133,6 +137,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         updateUser,
         selectedCarDescriptionId,
         setSelectedCarDescriptionId,
+        handleModalResetPassword,
+        setHandleModalResetPassword,
       }}
     >
       {children}
