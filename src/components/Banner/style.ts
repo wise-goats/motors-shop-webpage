@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import banner from "../../assets/banner.png";
 
 export const StyledBanner = styled.div`
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.29) 0%, #000000 100%);

@@ -1,24 +1,19 @@
 import { StyledPageProductDescription } from "./style";
-import { advertisementsMock, advertiserMock } from "../../services/mock";
-import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
-import Input from "../input";
-import { Header } from "../Header";
-import { Api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
 import Form from "../form";
 import { newCommentSchema } from "../../schemas/user.schemas";
-import { IComment, iCommentRegister } from "../../interfaces";
+import { iCommentRegister } from "../../interfaces";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StyledTextInput } from "../../styles/input";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
 import Modal from "../Modal";
-import { Link } from "react-router-dom";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { Api } from "../../services/api";
 
 interface userCardInformations {
   name: string;
@@ -46,10 +41,6 @@ export interface Advertisement {
   user: userCardInformations;
 }
 const PageProductDescriptionComponent = () => {
-  // const [advertisementDescription, setAdvertisementDescription] =
-  //   useState<Advertisement>();
-  // const [comments, setComments] = useState<IComment[]>([]);
-
   const [imgModal, setIMgModal] = useState<string>("");
 
   const { user } = useAuthContext();
