@@ -51,22 +51,22 @@ export interface IComment {
 }
 
 export interface iUserUpdate {
+  [key: string]: string | undefined | boolean;
   name?: string;
-  email?: string;
+  email?: string | undefined;
   profile_image?: string | undefined;
   password?: string;
   passwordConfirm?: string;
-  cpf?: string;
+  cpf?: string | undefined;
   phone?: string;
   birthDate?: string;
   isSeller?: string | boolean;
   description?: string;
-  addresses?: iAddressUpdate;
 }
 
 export interface iAddress {
   street: string;
-  number: string | number;
+  number: string;
   state: string;
   city: string;
   zipcode: string;

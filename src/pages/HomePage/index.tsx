@@ -91,14 +91,18 @@ export default () => {
   const [activeFilters, setActiveFilters] = useState<iActiveFilter>(
     {} as iActiveFilter
   );
+  const [pages, setPages] = useState<number>(0);
+  const [actualPage, setActualPage] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function getAds() {
       try {
-        const res = await Api.get("/advertisement");
-        setAdvertisements(res.data);
-        let ads: iAdvertisement[] = res.data;
+        const res = await Api.get(`/advertisement/?page=${actualPage}`);
+        setAdvertisements(res.data.data);
+        setPages(res.data.pages);
+        setActualPage(res.data.actualPage);
+        let ads: iAdvertisement[] = res.data.data;
         let filter: iFilter = {
           brand: [],
           model: [],
@@ -132,7 +136,7 @@ export default () => {
       }
     }
     getAds();
-  }, []);
+  }, [actualPage]);
 
   const handleModal = () => {
     setIsFilterModal(!isFilterModal);
@@ -148,21 +152,40 @@ export default () => {
               ? filteredAds.map((car) => (
                   <ProductCard key={car.id} advertisement={car} />
                 ))
-              : advertisements.map((car) => (
+              : advertisements.length > 0 &&
+                advertisements.map((car) => (
                   <ProductCard key={car.id} advertisement={car} />
                 ))}
           </ProductList>
           <StyledButton
             buttonSize="big"
+            className="filtersBtn"
             onClick={() => {
               setIsFilterModal(true);
             }}
           >
             Filtros
           </StyledButton>
-          <div>
-            <p>1 de 2</p>
-            <button>Seguinte</button>
+          <div className="pages">
+            {actualPage > 1 && (
+              <button
+                className="brand1"
+                onClick={() => setActualPage(actualPage - 1)}
+              >
+                Anterior
+              </button>
+            )}
+            <p>
+              {actualPage} de {pages}
+            </p>
+            {actualPage < pages && (
+              <button
+                className="brand1"
+                onClick={() => setActualPage(actualPage + 1)}
+              >
+                Seguinte
+              </button>
+            )}
           </div>
         </div>
         {isFilterModal ? (
@@ -182,6 +205,7 @@ export default () => {
               filteredModels={filteredModels}
               setFilteredModels={setFilteredModels}
               advertisements={advertisements}
+              isFiltered={isFiltered}
             />
           </Modal>
         ) : (
@@ -197,6 +221,7 @@ export default () => {
             setFilteredModels={setFilteredModels}
             advertisements={advertisements}
             hide={true}
+            isFiltered={isFiltered}
           />
         )}
       </div>

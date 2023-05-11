@@ -26,7 +26,20 @@ const userCreateSchema = userSchema.extend({
   addresses: addressSchema,
 });
 
-const userUpdateSchema = userCreateSchema.partial();
+const userUpdateSchema = userSchema
+  .pick({
+    name: true,
+    email: true,
+    profile_image: true,
+    password: true,
+    passwordConfirm: true,
+    cpf: true,
+    phone: true,
+    birthDate: true,
+    isSeller: true,
+    description: true,
+  })
+  .partial();
 
 const newCommentSchema = z.object({
   description: z.string(),

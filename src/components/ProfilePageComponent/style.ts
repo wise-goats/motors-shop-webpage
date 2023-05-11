@@ -89,6 +89,7 @@ export const StyledProfilePage = styled.div`
     max-width: 80%;
     min-height: 356px;
     background-color: var(--grey-7);
+    cursor: pointer;
 
     @media (min-width: 1024px) {
       max-width: 24%;

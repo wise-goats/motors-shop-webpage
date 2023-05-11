@@ -118,6 +118,12 @@ export const StyledButton = styled(BaseButton)`
             border-color: var(--alert-2);
           }
         `;
+      case "alert-inverse":
+        return css`
+          background-color: var(--alert-1);
+          color: var(--alert-3);
+          border-color: var(--alert-1);
+        `;
       case "success":
         return css`
           background-color: var(--success-3);

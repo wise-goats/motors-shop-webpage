@@ -15,7 +15,6 @@ interface IHeaderProps {
 }
 
 export const Header = ({ children }: IHeaderProps) => {
-  // const [user, setUser] = useState({ isSeller: true, name: "Josiel Luz" });
   const { user, exit } = useAuthContext();
   const [toast, setToast] = useState(false);
   const [divProfile, setDivProfile] = useState("");
@@ -28,7 +27,9 @@ export const Header = ({ children }: IHeaderProps) => {
     <StyledHeader>
       {handleModal && (
         <Modal
-          title="Editar endereço"
+          title={
+            modalContent == "address" ? "Editar endereço" : "Editar perfil"
+          }
           handleModal={() => setHandleModal(!handleModal)}
         >
           {modalContent == "address" && (
@@ -103,7 +104,7 @@ export const Header = ({ children }: IHeaderProps) => {
                   tag="p"
                   color="--grey-2"
                 >
-                  Meus Anúcio
+                  Meus Anúncios
                 </StyledText>
               )}
               <StyledText onClick={() => exit()} tag="p" color="--grey-2">

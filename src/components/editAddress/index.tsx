@@ -10,10 +10,11 @@ import { useForm } from "react-hook-form";
 import { Api } from "../../services/api";
 import { toast } from "react-toastify";
 import StyledForm from "./styles";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 interface IAddressUpdated {
   street?: string;
-  number?: number;
+  number?: string;
   complement?: string;
   state?: string;
   city?: string;
@@ -25,9 +26,11 @@ interface IEditAddressProps {
 }
 
 const EditAddressComponent = ({ setHandleModal }: IEditAddressProps) => {
+  const { address, setAddress } = useAuthContext();
+
   const schema = z.object({
     street: z.string(),
-    number: z.number(),
+    number: z.string(),
     complement: z.string(),
     state: z.string(),
     city: z.string(),
@@ -38,7 +41,10 @@ const EditAddressComponent = ({ setHandleModal }: IEditAddressProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddressUpdated>({ resolver: zodResolver(schema) });
+  } = useForm<IAddressUpdated>({
+    resolver: zodResolver(schema),
+    defaultValues: { ...address },
+  });
 
   const updateAddress = async (data: IAddressUpdated) => {
     await Api.patch("/users/address", data)

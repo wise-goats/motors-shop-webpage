@@ -1,6 +1,19 @@
 import styled from "styled-components";
 
 export const StyledHomePage = styled.div`
+  .brand1 {
+    font-weight: 600;
+    color: var(--brand-1);
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .pages {
+    display: flex;
+    gap: 12px;
+  }
   .advertisements {
     height: 100%;
     display: flex;
@@ -24,7 +37,7 @@ export const StyledHomePage = styled.div`
       align-items: center;
       gap: 60px;
       width: 100%;
-      button {
+      .filtersBtn {
         align-self: center;
         @media (min-width: 1024px) {
           display: none;

@@ -20,7 +20,7 @@ export default () => (
     <Route path="/profile/:id" element={<ProfilePage />} />
     <Route path="/description" element={<ProductDescription />} />
     <Route path="/profile" element={<ProfilePage />} />
-    <Route path="/resetPassword/:id" element={<ResetPasswordPage />} />
+    <Route path="resetPassword/:id" element={<ResetPasswordPage />} />
     {/* <Route path="/update" element={<CreateAdForm />} /> */}
   </Routes>
 );

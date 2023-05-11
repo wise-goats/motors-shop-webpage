@@ -9,14 +9,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
-
+import ResetPasswordForm from "../../components/ResetPasswordModal";
+import { useState } from "react";
 interface ILogin {
   email: string;
   password: string;
 }
 
 export const LoginPage = () => {
-  const { userLogin } = useAuthContext();
+  const { userLogin, handleModalResetPassword, setHandleModalResetPassword } =
+    useAuthContext();
 
   const schema = z.object({
     email: z.string().email("Deve ser um email válido"),
@@ -37,6 +39,8 @@ export const LoginPage = () => {
 
   return (
     <>
+      {handleModalResetPassword === true ? <ResetPasswordForm /> : ""}
+
       <StyledMain>
         <Form onSubmit={handleSubmit(login)}>
           <StyledTitle tag="h2" fontSize={24} fontWeight={600}>
@@ -64,7 +68,13 @@ export const LoginPage = () => {
               {errors.password?.message}
             </StyledText>
           </StyledText>
-          <StyledText tag="span" fontSize={14} color="--grey-2">
+          <StyledText
+            className="linkNewPassword"
+            tag="span"
+            fontSize={14}
+            color="--grey-2"
+            onClick={() => setHandleModalResetPassword(true)}
+          >
             Esqueci minha senha
           </StyledText>
 
