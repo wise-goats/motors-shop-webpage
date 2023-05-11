@@ -1,4 +1,3 @@
-import { Header } from "../../components/Header";
 import { StyledButton } from "../../styles/button";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledMain } from "./styles";
@@ -10,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import ResetPasswordForm from "../../components/ResetPasswordModal";
-import { useState } from "react";
+
 interface ILogin {
   email: string;
   password: string;
