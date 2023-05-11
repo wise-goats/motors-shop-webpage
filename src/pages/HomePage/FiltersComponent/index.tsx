@@ -5,6 +5,7 @@ import { StyledText, StyledTitle } from "../../../styles/typography";
 import { StyledButton } from "../../../styles/button";
 import { carros } from "../../../database";
 import { FipeApi } from "../../../services/fipeApi";
+import { StyledTextInput } from "../../../styles/input";
 
 interface iFiltersComponentProps {
   filters: iFilter;
@@ -18,6 +19,7 @@ interface iFiltersComponentProps {
   advertisements: iAdvertisement[];
   filteredModels: string[];
   hide?: boolean;
+  isFiltered: boolean;
 }
 
 const FiltersComponent = ({
@@ -32,8 +34,13 @@ const FiltersComponent = ({
   hide,
   setIsFiltered,
   advertisements,
+  isFiltered,
 }: iFiltersComponentProps) => {
   const [loading, setLoading] = useState(false);
+  const [minKm, setMinKm] = useState<number>(0);
+  const [maxKm, setMaxKm] = useState<number>(0);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(0);
 
   return (
     <section className={hide ? "filters hide" : "filters"}>
@@ -48,14 +55,14 @@ const FiltersComponent = ({
                 key={e}
                 onClick={async (ev) => {
                   activeFilters.brand === e
-                    ? ((activeFilters.brand = undefined), setFilteredModels([]))
-                    : (setActiveFilters({ ...activeFilters, brand: e }),
-                      setFilteredModels(
-                        advertisements
-                          .filter((ad) => ad.brand == e)
-                          .map((c) => c.model)
-                      ),
-                      console.log(filteredModels));
+                    ? (activeFilters.brand = undefined)
+                    : setActiveFilters({ ...activeFilters, brand: e });
+
+                  setFilteredModels(
+                    advertisements
+                      .filter((ad) => ad.brand == e)
+                      .map((c) => c.model)
+                  );
                 }}
                 fontWeight={500}
                 className={activeFilters.brand === e ? "selected" : ""}
@@ -175,7 +182,60 @@ const FiltersComponent = ({
           })}
         </ul>
       </div>
-
+      <div className="filter-section">
+        <StyledTitle fontWeight={500} tag="h4">
+          Km
+        </StyledTitle>
+        <ul>
+          <input
+            type="number"
+            placeholder="Minimo"
+            onChange={(e) => setMinKm(Number(e.target.value))}
+          />
+          <input
+            type="number"
+            placeholder="Máximo"
+            onChange={(e) => setMaxKm(Number(e.target.value))}
+          />
+        </ul>
+      </div>
+      <div className="filter-section">
+        <StyledTitle fontWeight={500} tag="h4">
+          Preço
+        </StyledTitle>
+        <ul>
+          <input
+            type="number"
+            placeholder="Minimo"
+            onChange={(e) => setMinPrice(Number(e.target.value))}
+          />
+          <input
+            type="number"
+            placeholder="Máximo"
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
+          />
+        </ul>
+      </div>
+      {isFiltered && (
+        <StyledButton
+          buttonSize="big"
+          onClick={() => {
+            setIsFiltered(false);
+            setFilteredAds([]);
+            setActiveFilters({
+              brand: undefined,
+              model: undefined,
+              color: undefined,
+              year: undefined,
+              fuel: undefined,
+              mileage: { min: 0, max: 0 },
+              price: { min: 0, max: 0 },
+            });
+          }}
+        >
+          Limpar Filtros
+        </StyledButton>
+      )}
       <StyledButton
         buttonSize="big"
         onClick={() => {
@@ -205,6 +265,18 @@ const FiltersComponent = ({
             filtered = filtered.filter(
               (car: any) => car.fuel == activeFilters.fuel
             );
+          }
+          if (minKm > 0) {
+            filtered = filtered.filter((car: any) => car.mileage >= minKm);
+          }
+          if (maxKm > 0) {
+            filtered = filtered.filter((car: any) => car.mileage <= maxKm);
+          }
+          if (minPrice > 0) {
+            filtered = filtered.filter((car: any) => car.price >= minPrice);
+          }
+          if (maxPrice > 0) {
+            filtered = filtered.filter((car: any) => car.price <= maxPrice);
           }
 
           setFilteredAds(filtered);

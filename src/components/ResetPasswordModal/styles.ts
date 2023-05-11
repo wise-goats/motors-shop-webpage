@@ -1,8 +1,18 @@
 import styled from "styled-components";
 
 const StyledForm = styled.div`
+  .btnClose {
+    display: flex;
+    justify-content: end;
+    .btnCloseReactIcon {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
+  }
   form {
-    width: 570px;
+    width: 100%;
+    max-width: 570px;
   }
 
   div {

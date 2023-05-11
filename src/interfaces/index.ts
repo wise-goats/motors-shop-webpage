@@ -25,23 +25,48 @@ export interface iUserRegister {
   addresses: iAddress;
 }
 
+export interface iCommentRegister {
+  description: string;
+}
+
+export interface iAdvertiseComments {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  fuel: number;
+  mileage: number;
+  color: string;
+  fipePrice: number;
+  price: number;
+  descripition: string;
+  is_active: boolean;
+  comments: IComment[];
+}
+
+export interface IComment {
+  id: string;
+  description: string;
+  user: iUser;
+}
+
 export interface iUserUpdate {
+  [key: string]: string | undefined | boolean;
   name?: string;
-  email?: string;
+  email?: string | undefined;
   profile_image?: string | undefined;
   password?: string;
   passwordConfirm?: string;
-  cpf?: string;
+  cpf?: string | undefined;
   phone?: string;
   birthDate?: string;
   isSeller?: string | boolean;
   description?: string;
-  addresses?: iAddressUpdate;
 }
 
 export interface iAddress {
   street: string;
-  number: string | number;
+  number: string;
   state: string;
   city: string;
   zipcode: string;
@@ -77,6 +102,7 @@ export interface iAdvertisement {
 export interface iImage {
   image: string;
   id: string;
+  images: string[];
 }
 
 export interface iUserProfile {

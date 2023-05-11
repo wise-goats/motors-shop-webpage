@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.main`
-  width: 100vw;
+  /* width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,5 +20,5 @@ export const MainContainer = styled.main`
     .bottomContainer {
       min-height: 1120px;
     }
-  }
+  } */
 `;

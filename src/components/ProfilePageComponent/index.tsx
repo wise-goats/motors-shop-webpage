@@ -1,14 +1,13 @@
-import { StyledCommomProfilePage, StyledProfilePage } from "./style";
-import { advertisementsMock, advertiserMock } from "../../services/mock";
-import car from "../../assets/EXTERIOR.png";
+import { StyledProfilePage } from "./style";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
-import Input from "../input";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { Api } from "../../services/api";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { object } from "zod";
+import Modal from "../Modal";
+import CreateAdForm from "../CreateAdForm";
+import UpdateAdForm from "../UpdateAdForm";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -60,9 +59,12 @@ interface User {
 }
 const ProfilePageComponent = () => {
   const { selectedCarId, user } = useAuthContext();
-  const [isAdm, setIsAdm] = useState(false);
   const [carUserCommom, setCarUserCommom] = useState<User>();
-
+  const [modalCreate, setModalCreate] = useState<boolean>(false);
+  const [modalUpdate, setModalUpdate] = useState<boolean>(false);
+  const [carId, setCarId] = useState<string>("");
+  const { id } = useParams();
+  const navigate = useNavigate();
   const getInitials = (fullName: string): string => {
     const names = fullName.split(" ");
     const initials = names
@@ -80,7 +82,6 @@ const ProfilePageComponent = () => {
             "Content-Type": "application/json",
           },
         }).then((res) => {
-          console.log(res.data.advertisement, "entrou");
           setCarUserCommom(res.data);
           return;
         });
@@ -89,61 +90,20 @@ const ProfilePageComponent = () => {
         return;
       }
     }
-    dataCardListProfile(selectedCarId);
+    dataCardListProfile(id!);
   }, []);
-  console.log(selectedCarId, "AQUI", user?.id);
-  return selectedCarId === user?.id ? (
+
+  return (
     <>
+      {modalCreate && (
+        <Modal
+          title="Criar anuncio"
+          handleModal={() => setModalCreate(!modalCreate)}
+        >
+          <CreateAdForm handleModal={setModalCreate} />
+        </Modal>
+      )}
       <StyledProfilePage>
-        <div className="containerInformationsUser">
-          <div className="containerSecundary">
-            <span className="imageCicleName">SL</span>
-            <div className="containerName">
-              <span>{carUserCommom?.name}</span>
-              <span className="specialText">Anunciante</span>
-            </div>
-            <StyledText tag="h7">{carUserCommom?.description}</StyledText>
-
-            <StyledButton buttonStyle="outlineBrand">
-              Criar anuncio
-            </StyledButton>
-          </div>
-        </div>
-
-        <ul>
-          {carUserCommom?.advertisement.map((car) => (
-            <li>
-              <figure>
-                <img
-                  className="imgCarCard"
-                  src={`${car.images[0].image}`}
-                  alt={`imagem ilustrativa de carro modelo${car?.model}`}
-                />
-              </figure>
-              <span>{car?.model}</span>
-
-              <StyledText tag="h7">{car?.description}</StyledText>
-              <div className="containerCarInformations">
-                <div>
-                  <span className="specialTextCard">{car?.mileage} KM</span>
-                  <span className="specialTextCard">{car?.year}</span>
-                </div>
-                <StyledText fontWeight={600} tag="p">
-                  R$ {car?.price}
-                </StyledText>
-              </div>
-              <div className="containerBtns">
-                <StyledButton buttonStyle="outline1">Editar</StyledButton>
-                <StyledButton buttonStyle="outline1">Ver detalhes</StyledButton>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </StyledProfilePage>
-    </>
-  ) : (
-    <>
-      <StyledCommomProfilePage>
         <div className="containerInformationsUser">
           <div className="containerSecundary">
             <span className="imageCicleName">
@@ -154,45 +114,82 @@ const ProfilePageComponent = () => {
               <span className="specialText">Anunciante</span>
             </div>
             <StyledText tag="h7">{carUserCommom?.description}</StyledText>
+            {id == user?.id && (
+              <StyledButton
+                onClick={() => setModalCreate(!modalCreate)}
+                buttonStyle="outlineBrand"
+              >
+                Criar anuncio
+              </StyledButton>
+            )}
           </div>
         </div>
 
         <ul>
           {carUserCommom?.advertisement.map((car) => (
-            <li key={car.id}>
+            <li key={car.id} onClick={() => navigate(`/description/${car.id}`)}>
+              {modalUpdate && (
+                <Modal
+                  title="Editar anúncio"
+                  handleModal={() => setModalUpdate(!modalUpdate)}
+                >
+                  <UpdateAdForm handleModal={setModalUpdate} id={carId} />
+                </Modal>
+              )}
               <figure>
-                <span className="statusCar">
-                  {car.isActive === true ? "Ativo" : "Inativo"}
-                </span>
+                {id !== user?.id && (
+                  <span className="statusCar">
+                    {car.isActive === true ? "Ativo" : "Inativo"}
+                  </span>
+                )}
                 <img
                   className="imgCarCard"
-                  src={`${car?.images[0].image}`}
-                  alt={`${car?.model} model car image`}
+                  src={`${car.images[0].image}`}
+                  alt={`imagem ilustrativa de carro modelo${car?.model}`}
                 />
               </figure>
-              <span>{car?.model}</span>
-              <StyledText tag="h7">{car?.description}</StyledText>
-              <div className="containerNameCardAd">
-                <StyledText className="cicleCardSeller" tag="h3">
-                  {getInitials(carUserCommom.name)}
-                </StyledText>
-                <StyledText tag="h3">{carUserCommom.name}</StyledText>
-              </div>
+              <StyledTitle tag="h6" fontWeight={600}>
+                {car?.model}
+              </StyledTitle>
 
+              <StyledText color="--grey-2">{car?.description}</StyledText>
+              {id !== user?.id && (
+                <div className="containerNameCardAd">
+                  <StyledText className="cicleCardSeller" tag="h3">
+                    {getInitials(carUserCommom.name)}
+                  </StyledText>
+                  <StyledText tag="h3">{carUserCommom.name}</StyledText>
+                </div>
+              )}
               <div className="containerCarInformations">
                 <div>
                   <span className="specialTextCard">{car?.mileage} KM</span>
                   <span className="specialTextCard">{car?.year}</span>
                 </div>
-
                 <StyledText fontWeight={600} tag="p">
                   R$ {car?.price}
                 </StyledText>
               </div>
+              {id == user?.id && (
+                <div className="containerBtns">
+                  <StyledButton
+                    onClick={() => {
+                      setCarId(car.id);
+                      setModalUpdate(!modalUpdate);
+                    }}
+                    buttonStyle="outline1"
+                  >
+                    Editar
+                  </StyledButton>
+                  <StyledButton buttonStyle="outline1">
+                    Ver detalhes
+                  </StyledButton>
+                </div>
+              )}
             </li>
           ))}
         </ul>
-      </StyledCommomProfilePage>
+      </StyledProfilePage>
     </>
   );
 };

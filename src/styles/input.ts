@@ -4,7 +4,7 @@ import BaseInputs from "../components/input";
 export const StyledTextInput = styled.input`
   width: 100%;
   min-width: 110px;
-  max-width: 315px;
+
   height: 48px;
   border: 1.5px solid var(--grey-7);
   border-radius: 4px;

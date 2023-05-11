@@ -46,6 +46,7 @@ const StyledForm = styled.div`
   textarea {
     width: 483px;
     min-width: 110px;
+    max-width: 315px;
     height: 61px;
     border: 1.5px solid var(--grey-7);
     border-radius: 4px;
@@ -74,6 +75,38 @@ const StyledForm = styled.div`
     :focus {
       outline-color: var(--brand-1);
       background-color: var(--grey-7);
+    }
+  }
+
+  .btn_is_active {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    button {
+      width: 45%;
+    }
+  }
+
+  .btn_submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 28px;
+    gap: 10px;
+    border: 1.5px solid transparent;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+
+    background-color: var(--brand-1);
+    color: var(--white-fixed);
+
+    &&:hover {
+      background-color: var(--brand-2);
+      border-color: var(--brand-2);
     }
   }
 `;

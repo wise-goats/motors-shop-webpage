@@ -20,7 +20,8 @@ interface iBaseButtonProps {
     | "outlineBrand"
     | "alert"
     | "success"
-    | "brandDisabled";
+    | "brandDisabled"
+    | "alert-inverse";
 }
 
 const BaseButton = ({

@@ -5,6 +5,10 @@ import { RegisterPage } from "../pages/RegisterPage";
 import { ProductDescription } from "../pages/ProductDescription";
 import { ProfilePage } from "../pages/ProfilePage";
 import ProfileAdminPage from "../pages/ProfileAdminPage";
+import UpdateAdForm from "../components/UpdateAdForm";
+import UserUpdateForm from "../components/UserUpdateForm";
+import CreateAdForm from "../components/CreateAdForm";
+import ResetPasswordPage from "../pages/ResetPassword";
 
 export default () => (
   <Routes>
@@ -12,8 +16,11 @@ export default () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="*" element={<Navigate to="/" />} />
     <Route path="/register" element={<RegisterPage />} />
-    <Route path="/description" element={<ProductDescription />} />
+    <Route path="/description/:id" element={<ProductDescription />} />
     <Route path="/profile/:id" element={<ProfilePage />} />
-    <Route path="/profileadm" element={<ProfileAdminPage />} />
+    <Route path="/description" element={<ProductDescription />} />
+    <Route path="/profile" element={<ProfilePage />} />
+    <Route path="resetPassword/:id" element={<ResetPasswordPage />} />
+    {/* <Route path="/update" element={<CreateAdForm />} /> */}
   </Routes>
 );

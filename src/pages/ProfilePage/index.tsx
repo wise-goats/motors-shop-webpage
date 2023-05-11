@@ -5,8 +5,6 @@ export const ProfilePage = () => {
   return (
     <MainContainer>
       <ProfilePageComponent />
-      <div className="TopContainer"></div>
-      <div className="bottomContainer"></div>
     </MainContainer>
   );
 };

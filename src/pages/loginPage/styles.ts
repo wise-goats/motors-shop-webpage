@@ -7,6 +7,9 @@ export const StyledMain = styled.main`
   align-items: center;
   justify-content: center;
   background-color: var(--grey-7);
+  .linkNewPassword {
+    cursor: pointer;
+  }
 
   & > form {
     border-radius: 4px;
