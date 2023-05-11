@@ -23,12 +23,17 @@ export const StyledPageProductDescription = styled.div`
     justify-content: center;
     align-items: center;
     gap: 20px;
+    width: 100%;
     .leftContainer {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 20px;
+      width: 100%;
+      @media (min-width: 1024px) {
+        width: 70%;
+      }
     }
     .rightContainer {
       display: flex;
@@ -36,6 +41,10 @@ export const StyledPageProductDescription = styled.div`
       justify-content: center;
       align-items: center;
       gap: 20px;
+      width: 100%;
+      @media (min-width: 1024px) {
+        width: 30%;
+      }
     }
     @media (min-width: 1024px) {
       flex-direction: row;
