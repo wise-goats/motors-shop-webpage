@@ -18,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
 import Modal from "../Modal";
 import { Link } from "react-router-dom";
+import { MdOutlineDeleteForever } from "react-icons/md";
 
 interface userCardInformations {
   name: string;
@@ -100,6 +101,13 @@ const PageProductDescriptionComponent = () => {
     registerComment(data, id!);
     reset();
   };
+
+  const deleteComment = async (commentId: string) => {
+    await Api.delete(`advertisement/${id}/comment/${commentId}`).then((res) => {
+      setComments(comments.filter((c) => c.id !== commentId));
+    });
+  };
+
   return (
     <>
       {advertisementDescription.brand && (
@@ -201,7 +209,6 @@ const PageProductDescriptionComponent = () => {
                 >
                   Ver todos anuncios
                 </StyledButton>
-
               </div>
             </div>
           </div>
@@ -212,6 +219,19 @@ const PageProductDescriptionComponent = () => {
             {comments &&
               comments.map((c) => (
                 <div key={c.id} className="commentCard">
+                  {c.user.id == user?.id && (
+                    <div
+                      className="deleteComment"
+                      onClick={() => {
+                        deleteComment(c.id);
+                      }}
+                    >
+                      <MdOutlineDeleteForever
+                        size={30}
+                        color="var(--alert-1)"
+                      />
+                    </div>
+                  )}
                   <div className="commentHeader">
                     <span className="initialsOfNameInCircle">
                       {getInitials(c.user.name)}

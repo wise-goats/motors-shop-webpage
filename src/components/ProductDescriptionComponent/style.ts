@@ -58,6 +58,12 @@ export const StyledPageProductDescription = styled.div`
       display: flex;
       flex-direction: column;
       gap: 32px;
+      position: relative;
+      .deleteComment {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
     }
 
     & .initialsOfNameInCircle {
