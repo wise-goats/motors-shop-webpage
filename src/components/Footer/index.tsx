@@ -1,5 +1,5 @@
 import { StyledFooter } from "./style";
-import logo from "../../Assets/Logo.png";
+import logo from "../../assets/Logo.png";
 import { FaAngleUp } from "react-icons/fa";
 const Footer = () => {
   return (
