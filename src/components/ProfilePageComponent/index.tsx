@@ -91,7 +91,7 @@ const ProfilePageComponent = () => {
       }
     }
     dataCardListProfile(id!);
-  }, []);
+  }, [modalUpdate, modalCreate]);
 
   return (
     <>
@@ -126,16 +126,16 @@ const ProfilePageComponent = () => {
         </div>
 
         <ul>
+          {modalUpdate && (
+            <Modal
+              title="Editar anúncio"
+              handleModal={() => setModalUpdate(!modalUpdate)}
+            >
+              <UpdateAdForm handleModal={setModalUpdate} id={carId} />
+            </Modal>
+          )}
           {carUserCommom?.advertisement.map((car) => (
             <li key={car.id} onClick={() => navigate(`/description/${car.id}`)}>
-              {modalUpdate && (
-                <Modal
-                  title="Editar anúncio"
-                  handleModal={() => setModalUpdate(!modalUpdate)}
-                >
-                  <UpdateAdForm handleModal={setModalUpdate} id={carId} />
-                </Modal>
-              )}
               <figure>
                 {id !== user?.id && (
                   <span className="statusCar">
@@ -173,7 +173,8 @@ const ProfilePageComponent = () => {
               {id == user?.id && (
                 <div className="containerBtns">
                   <StyledButton
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setCarId(car.id);
                       setModalUpdate(!modalUpdate);
                     }}
