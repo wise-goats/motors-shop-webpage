@@ -1,5 +1,4 @@
 import { StyledPageProductDescription } from "./style";
-import { advertisementsMock, advertiserMock } from "../../services/mock";
 import car from "../../assets/EXTERIOR.png";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledButton } from "../../styles/button";
@@ -201,7 +200,6 @@ const PageProductDescriptionComponent = () => {
                 >
                   Ver todos anuncios
                 </StyledButton>
-
               </div>
             </div>
           </div>
