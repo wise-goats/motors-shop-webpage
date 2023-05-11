@@ -3,7 +3,7 @@ import axios from "axios";
 const token = localStorage.getItem("@MYTOKEN");
 
 export const Api = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://motors-shop-api-mu.vercel.app/users",
   timeout: 15000,
   headers: {
     Authorization: `Bearer ${token}`,
