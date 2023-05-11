@@ -19,6 +19,7 @@ interface iFiltersComponentProps {
   advertisements: iAdvertisement[];
   filteredModels: string[];
   hide?: boolean;
+  isFiltered: boolean;
 }
 
 const FiltersComponent = ({
@@ -33,6 +34,7 @@ const FiltersComponent = ({
   hide,
   setIsFiltered,
   advertisements,
+  isFiltered,
 }: iFiltersComponentProps) => {
   const [loading, setLoading] = useState(false);
   const [minKm, setMinKm] = useState<number>(0);
@@ -214,7 +216,26 @@ const FiltersComponent = ({
           />
         </ul>
       </div>
-
+      {isFiltered && (
+        <StyledButton
+          buttonSize="big"
+          onClick={() => {
+            setIsFiltered(false);
+            setFilteredAds([]);
+            setActiveFilters({
+              brand: undefined,
+              model: undefined,
+              color: undefined,
+              year: undefined,
+              fuel: undefined,
+              mileage: { min: 0, max: 0 },
+              price: { min: 0, max: 0 },
+            });
+          }}
+        >
+          Limpar Filtros
+        </StyledButton>
+      )}
       <StyledButton
         buttonSize="big"
         onClick={() => {

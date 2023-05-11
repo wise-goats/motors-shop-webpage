@@ -66,7 +66,7 @@ export interface iUserUpdate {
 
 export interface iAddress {
   street: string;
-  number: string | number;
+  number: string;
   state: string;
   city: string;
   zipcode: string;

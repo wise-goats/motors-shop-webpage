@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
 import {
+  iAddress,
   iCommentRegister,
   iUser,
   iUserProfile,
@@ -22,9 +23,10 @@ export interface ILogin {
 
 export interface iAuthContext {
   user: iUserProfile | null;
+  address: iAddress;
   userLogin: (data: ILogin) => void;
   registerUser: (data: iUserRegister) => void;
-
+  setAddress: React.Dispatch<React.SetStateAction<iAddress>>;
   exit: () => void;
   selectedCarId: string;
   setSelectedCarId: React.Dispatch<React.SetStateAction<string>>;
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
   const [selectedCarId, setSelectedCarId] = useState("");
   const [selectedCarDescriptionId, setSelectedCarDescriptionId] = useState("");
   const [user, setUser] = useState<iUserProfile | null>(null);
+  const [address, setAddress] = useState<iAddress>({} as iAddress);
   const [handleModalResetPassword, setHandleModalResetPassword] =
     useState<boolean>(false);
   const navigate = useNavigate();
@@ -51,6 +54,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
         Api.defaults.headers.authorization = `Bearer ${token}`;
         try {
           const res = await Api.get("/profile");
+          const addressRes = await Api.get("/address");
+          setAddress(addressRes.data);
           setUser(res.data);
           toast.success(`Bem vindo(a) ${res.data.name}`);
           // navigate("/");
@@ -72,6 +77,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
       localStorage.setItem("@MYTOKEN", res.data.token);
       Api.defaults.headers.authorization = `Bearer ${res.data.token}`;
       const profile = await Api.get("/profile");
+      const addressRes = await Api.get("/address");
+      setAddress(addressRes.data);
       setUser(profile.data);
       toast.success(`Bem vindo(a) ${profile.data.name}`, { autoClose: 1 });
       navigate("/");
@@ -129,6 +136,8 @@ export const AuthProvider = ({ children }: iAuthProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
+        address,
+        setAddress,
         user,
         userLogin,
         registerUser,

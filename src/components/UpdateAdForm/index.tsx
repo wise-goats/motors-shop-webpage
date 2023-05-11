@@ -96,7 +96,10 @@ const UpdateAdForm = ({ id, handleModal }: IUpgradeAdProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAdForm>({ resolver: zodResolver(schema) });
+  } = useForm<IAdForm>({
+    resolver: zodResolver(schema),
+    defaultValues: { ...advertisement },
+  });
 
   const getImgUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     for (let i = 0; i < image.length; i++) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Form from "../form";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { userSchema, userUpdateSchema } from "../../schemas/user.schemas";
@@ -19,7 +19,7 @@ const UserUpdateForm = ({
   handleDeleteModal,
 }: iUserUpdateFormProps) => {
   const { user, updateUser } = useAuthContext();
-
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -100,9 +100,22 @@ const UserUpdateForm = ({
       <StyledButton buttonStyle="negative" onClick={() => handleModal(false)}>
         Cancelar
       </StyledButton>
-      <StyledButton buttonStyle="alert" onClick={() => handleDeleteModal}>
-        Excluir Perfil
-      </StyledButton>
+      {confirmDelete ? (
+        <StyledButton
+          buttonStyle="alert-inverse"
+          onClick={() => setConfirmDelete(false)}
+        >
+          Confirmar
+        </StyledButton>
+      ) : (
+        <StyledButton
+          buttonStyle="alert"
+          onClick={() => setConfirmDelete(true)}
+        >
+          Excluir Perfil
+        </StyledButton>
+      )}
+
       <StyledButton buttonStyle="brand1" submitType={true}>
         Salvar Alterações
       </StyledButton>
