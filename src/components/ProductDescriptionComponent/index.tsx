@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { StyledTextInput } from "../../styles/input";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAdvertisementContext } from "../../contexts/AdvertisementContext";
+import Modal from "../Modal";
+import { Link } from "react-router-dom";
 
 interface userCardInformations {
   name: string;
@@ -46,6 +48,8 @@ const PageProductDescriptionComponent = () => {
   // const [advertisementDescription, setAdvertisementDescription] =
   //   useState<Advertisement>();
   // const [comments, setComments] = useState<IComment[]>([]);
+
+  const [imgModal, setIMgModal] = useState<string>("");
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -155,7 +159,19 @@ const PageProductDescriptionComponent = () => {
                 <ul>
                   {advertisementDescription?.images.map((image, index) => (
                     <li key={index}>
-                      <img src={`${image.image}`} alt="" />
+                      {imgModal !== "" && (
+                        <Modal
+                          title="Imagen do veícolo"
+                          handleModal={() => setIMgModal("")}
+                        >
+                          <img src={`${imgModal}`} alt="" />
+                        </Modal>
+                      )}
+                      <img
+                        onClick={() => setIMgModal(image.image)}
+                        src={`${image.image}`}
+                        alt=""
+                      />
                     </li>
                   ))}
                 </ul>
@@ -175,6 +191,7 @@ const PageProductDescriptionComponent = () => {
                 <StyledText tag="h7">
                   {advertisementDescription?.user.description}
                 </StyledText>
+
                 <StyledButton
                   buttonStyle="grey1"
                   buttonSize="big"
@@ -184,6 +201,7 @@ const PageProductDescriptionComponent = () => {
                 >
                   Ver todos anuncios
                 </StyledButton>
+
               </div>
             </div>
           </div>
