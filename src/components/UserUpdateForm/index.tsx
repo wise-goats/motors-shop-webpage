@@ -8,6 +8,8 @@ import { iUserUpdate } from "../../interfaces";
 import { StyledText, StyledTitle } from "../../styles/typography";
 import { StyledTextInput } from "../../styles/input";
 import { StyledButton } from "../../styles/button";
+import { Api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface iUserUpdateFormProps {
   handleModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +30,7 @@ const UserUpdateForm = ({
   } = useForm<iUserUpdate>({
     resolver: zodResolver(userUpdateSchema),
   });
+  const navigate = useNavigate();
 
   const update = async (data: iUserUpdate) => {
     for (let key in data) {
@@ -40,6 +43,14 @@ const UserUpdateForm = ({
     handleModal(false);
     reset();
   };
+
+  const deleteUser = async () => {
+    const res = await Api.delete(`users/`);
+    window.localStorage.clear();
+    console.log(res.data);
+    navigate("/");
+  };
+
   return (
     <Form onSubmit={handleSubmit(update)}>
       <StyledText tag="label">
@@ -103,7 +114,10 @@ const UserUpdateForm = ({
       {confirmDelete ? (
         <StyledButton
           buttonStyle="alert-inverse"
-          onClick={() => setConfirmDelete(false)}
+          onClick={async () => {
+            setConfirmDelete(false);
+            deleteUser();
+          }}
         >
           Confirmar
         </StyledButton>

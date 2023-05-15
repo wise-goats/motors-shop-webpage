@@ -195,11 +195,11 @@ export const RegisterPage = () => {
 
           <div className="containerDivIsSeller">
             <label className="labelIsSeller">
-              <input type="radio" value="true" {...register("isSeller")} />
+              <input type="radio" value="false" {...register("isSeller")} />
               Comprador
             </label>
             <label className="labelIsSeller">
-              <input type="radio" value="false" {...register("isSeller")} />
+              <input type="radio" value="true" {...register("isSeller")} />
               Anunciante
             </label>
             {errors.isSeller?.message}
@@ -229,7 +229,9 @@ export const RegisterPage = () => {
             </StyledText>
           </StyledText>
 
-          <StyledButton buttonStyle="brand1" submitType={true}>Finalizar cadastro</StyledButton>
+          <StyledButton buttonStyle="brand1" submitType={true}>
+            Finalizar cadastro
+          </StyledButton>
         </Form>
       </StyledMain>
     </>

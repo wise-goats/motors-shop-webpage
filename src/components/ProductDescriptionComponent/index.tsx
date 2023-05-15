@@ -160,7 +160,7 @@ const PageProductDescriptionComponent = () => {
                     <li key={index}>
                       {imgModal !== "" && (
                         <Modal
-                          title="Imagen do veícolo"
+                          title="Imagem do Veículo"
                           handleModal={() => setIMgModal("")}
                         >
                           <img src={`${imgModal}`} alt="" />
